@@ -11,74 +11,51 @@ import Profile from '../user/profile/Profile';
 import OAuth2RedirectHandler from '../user/oauth2/OAuth2RedirectHandler';
 import NotFound from '../common/NotFound';
 import LoadingIndicator from '../common/LoadingIndicator';
-import { getCurrentUser } from '../util/APIUtils';
 import { ACCESS_TOKEN } from '../constants';
 import PrivateRoute from '../common/PrivateRoute';
 import Alert from 'react-s-alert';
 import 'react-s-alert/dist/s-alert-default.css';
 import 'react-s-alert/dist/s-alert-css-effects/slide.css';
 import './App.css';
+import { connect } from 'react-redux';
+import {fetchCurrentlyLoadedUser} from '../store/auth-action';
+import {authActions} from '../store/auth-slice'
 
 class App extends Component {
-  constructor(props) {
+
+  constructor(props){
     super(props);
-    this.state = {
-      authenticated: false,
-      currentUser: null,
-      loading: true
-    }
-
-    this.loadCurrentlyLoggedInUser = this.loadCurrentlyLoggedInUser.bind(this);
-    this.handleLogout = this.handleLogout.bind(this);
+    this.handleLogout=this.handleLogout.bind(this);
   }
-
-  loadCurrentlyLoggedInUser() {
-    getCurrentUser()
-    .then(response => {
-      this.setState({
-        currentUser: response,
-        authenticated: true,
-        loading: false
-      });
-    }).catch(error => {
-      this.setState({
-        loading: false
-      });  
-    });    
-  }
-
   handleLogout() {
     localStorage.removeItem(ACCESS_TOKEN);
-    this.setState({
-      authenticated: false,
-      currentUser: null
-    });
+    this.props.handleLogout();
     Alert.success("You're safely logged out!");
   }
 
   componentDidMount() {
-    this.loadCurrentlyLoggedInUser();
+    this.props.loadCurrentlyLoggedInUser();
   }
 
   render() {
-    if(this.state.loading) {
+    if(this.props.loading) {
       return <LoadingIndicator />
     }
 
     return (
       <div className="app">
         <div className="app-top-box">
-          <AppHeader authenticated={this.state.authenticated} onLogout={this.handleLogout} />
+          <AppHeader authenticated={this.props.authenticated} onLogout={this.handleLogout} />
         </div>
         <div className="app-body">
           <Switch>
-            <Route exact path="/" component={Home}></Route>           
-            <PrivateRoute path="/profile" authenticated={this.state.authenticated} currentUser={this.state.currentUser}
+            <Route exact path="/" component={Home}></Route>   
+            <PrivateRoute path="/profile" authenticated={this.props.authenticated} currentUser={this.props.currentUser}
               component={Profile}></PrivateRoute>
             <Route path="/login"
-              render={(props) => <Login authenticated={this.state.authenticated} onLogin={this.loadCurrentlyLoggedInUser} {...props} />}></Route>
+              render={(props) => <Login authenticated={this.props.authenticated} onLogin={this.props.loadCurrentlyLoggedInUser} {...props} />}></Route>
             <Route path="/signup"
-              render={(props) => <Signup authenticated={this.state.authenticated} {...props} />}></Route>
+              render={(props) => <Signup authenticated={this.props.authenticated} {...props} />}></Route>
             <Route path="/oauth2/redirect" component={OAuth2RedirectHandler}></Route>  
             <Route component={NotFound}></Route>
           </Switch>
@@ -91,4 +68,24 @@ class App extends Component {
   }
 }
 
-export default App;
+const mapStateToProps=(state)=>{
+
+  return {
+    currentUser: state.auth.currentUser,
+    authenticated: state.auth.authenticated,
+    loading: state.auth.loading
+  };
+
+}
+
+const mapDispatchToProps=(dispatch)=>{
+  return {
+    loadCurrentlyLoggedInUser:()=>dispatch(fetchCurrentlyLoadedUser()),
+    handleLogout:()=>dispatch(authActions.handleLogout())
+  }
+
+}
+
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

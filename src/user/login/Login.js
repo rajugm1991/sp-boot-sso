@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './Login.css';
 import { GOOGLE_AUTH_URL, FACEBOOK_AUTH_URL, GITHUB_AUTH_URL, ACCESS_TOKEN } from '../../constants';
 import { login } from '../../util/APIUtils';
-import { Link, Redirect } from 'react-router-dom'
+import { Link, Navigate } from 'react-router-dom'
 import fbLogo from '../../img/fb-logo.png';
 import googleLogo from '../../img/google-logo.png';
 import githubLogo from '../../img/github-logo.png';
@@ -33,7 +33,7 @@ class Login extends Component {
     
     render() {
         if(this.props.authenticated) {
-            return <Redirect
+            return <Navigate
                 to={{
                 pathname: "/",
                 state: { from: this.props.location }
@@ -103,7 +103,7 @@ class LoginForm extends Component {
             this.props.onLogin();
             this.props.history.push("/");
         }).catch(error => {
-            Alert.error((error && error.message) || 'Oops! Something went wrong. Please try again!');
+            Alert.error((error && error.error) || 'Oops! Something went wrong. Please try again!');
         });
         
     }

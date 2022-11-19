@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './Signup.css';
-import { Link, Redirect } from 'react-router-dom'
+import { Link, Navigate } from 'react-router-dom'
 import { GOOGLE_AUTH_URL, FACEBOOK_AUTH_URL, GITHUB_AUTH_URL } from '../../constants';
 import { signup } from '../../util/APIUtils';
 import fbLogo from '../../img/fb-logo.png';
@@ -11,7 +11,7 @@ import Alert from 'react-s-alert';
 class Signup extends Component {
     render() {
         if(this.props.authenticated) {
-            return <Redirect
+            return <Navigate
                 to={{
                 pathname: "/",
                 state: { from: this.props.location }
