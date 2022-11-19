@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { ACCESS_TOKEN } from '../../constants';
-import { Navigate } from 'react-router-dom'
+import { Redirect } from 'react-router-dom'
 
 class OAuth2RedirectHandler extends Component {
     getUrlParameter(name) {
@@ -17,12 +17,12 @@ class OAuth2RedirectHandler extends Component {
 
         if(token) {
             localStorage.setItem(ACCESS_TOKEN, token);
-            return <Navigate to={{
+            return <Redirect to={{
                 pathname: "/profile",
                 state: { from: this.props.location }
             }}/>; 
         } else {
-            return <Navigate to={{
+            return <Redirect to={{
                 pathname: "/login",
                 state: { 
                     from: this.props.location,
