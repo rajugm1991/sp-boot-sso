@@ -103,7 +103,7 @@ class LoginForm extends Component {
             this.props.onLogin();
             this.props.history.push("/");
         }).catch(error => {
-            Alert.error((error && error.message) || 'Oops! Something went wrong. Please try again!');
+            Alert.error((error && error.error) || 'Oops! Something went wrong. Please try again!');
         });
         
     }
