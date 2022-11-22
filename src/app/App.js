@@ -70,7 +70,6 @@ class App extends Component {
 }
 
 const mapStateToProps=(state)=>{
-
   return {
     currentUser: state.auth.currentUser,
     authenticated: state.auth.authenticated,
@@ -84,9 +83,8 @@ const mapDispatchToProps=(dispatch)=>{
     loadCurrentlyLoggedInUser:()=>dispatch(fetchCurrentlyLoadedUser()),
     handleLogout:()=>dispatch(authActions.handleLogout())
   }
-
 }
 
 
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));
+export default connect(mapStateToProps, mapDispatchToProps)(App);

@@ -5,7 +5,7 @@ const INITIALSTATE={
     currentUser:{
 
     },
-    authenticated:false,
+    authenticated:(localStorage.getItem('accessToken')!==''),
     loading:false
 }
 
