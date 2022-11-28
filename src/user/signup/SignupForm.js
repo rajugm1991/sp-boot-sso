@@ -2,6 +2,7 @@ import React,{Component} from "react";
 import './Signup.css';
 import { signup } from '../../util/APIUtils';
 import Alert from 'react-s-alert';
+import {SyncOutlined} from '@ant-design/icons'
 
 class SignupForm extends Component {
     constructor(props) {
@@ -9,7 +10,8 @@ class SignupForm extends Component {
         this.state = {
             name: '',
             email: '',
-            password: ''
+            password: '',
+            formLoading: false,
         }
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -27,14 +29,22 @@ class SignupForm extends Component {
 
     handleSubmit(event) {
         event.preventDefault();   
-
+     this.setState({
+        formLoading:true
+     })
         const signUpRequest = Object.assign({}, this.state);
         signup(signUpRequest)
         .then(response => {
             Alert.success("You're successfully registered. Please login to continue!");
+            this.setState({
+                formLoading:false
+             })
             this.props.history.push("/login");
         }).catch(error => {
-            Alert.error((error && error.error) || 'Oops! Something went wrong. Please try again!');            
+            Alert.error((error && error.error) || 'Oops! Something went wrong. Please try again!');     
+            this.setState({
+                formLoading:false
+             })       
         });
     }
 
@@ -57,7 +67,9 @@ class SignupForm extends Component {
                         value={this.state.password} onChange={this.handleInputChange} required/>
                 </div>
                 <div className="form-item">
-                    <button type="submit" className="btn btn-block btn-primary" >Sign Up</button>
+                    <button type="submit" disabled={this.state.formLoading} className="btn btn-block btn-primary" >
+                        {this.state.formLoading ? <SyncOutlined spin/>:' Sign Up'}
+                       </button>
                 </div>
             </form>                    
 

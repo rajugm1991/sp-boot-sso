@@ -4,13 +4,15 @@ import { ACCESS_TOKEN } from "../../constants";
 import { fetchCurrentlyLoadedUser } from "../../store/auth-action";
 import { login } from '../../util/APIUtils';
 import Alert from 'react-s-alert';
+import { SyncOutlined } from "@ant-design/icons";
 
 class LoginForm extends Component {
     constructor(props) {
         super(props);
         this.state = {
             email: '',
-            password: ''
+            password: '',
+            formLoading:false,
         };
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -27,6 +29,7 @@ class LoginForm extends Component {
     }
 
     handleSubmit(event) {
+        this.setState({formLoading:true});
         event.preventDefault();   
         const loginRequest = Object.assign({}, this.state);
         login(loginRequest)
@@ -34,8 +37,10 @@ class LoginForm extends Component {
             localStorage.setItem(ACCESS_TOKEN, response.accessToken);
             Alert.success("You're successfully logged in!");
             this.props.loadCurrentlyLoggedInUser();
+            this.setState({formLoading:false});
             this.props.history.push("/");
         }).catch(error => {
+            this.setState({formLoading:false});
             Alert.error((error && error.error) || 'Oops! Something went wrong. Please try again!');
         });
         
@@ -55,7 +60,9 @@ class LoginForm extends Component {
                         value={this.state.password} onChange={this.handleInputChange} required/>
                 </div>
                 <div className="form-item">
-                    <button type="submit" className="btn btn-block btn-primary">Login</button>
+                    <button type="submit" className="btn btn-block btn-primary" disabled={this.state.formLoading}>
+                        {this.state.formLoading ? <SyncOutlined spin/> :'Login'}
+                        </button>
                 </div>
             </form>                    
         );

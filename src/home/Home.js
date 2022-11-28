@@ -6,6 +6,8 @@ class Home extends Component {
         return (
             <div className="home-container">
                 <div className="container">
+<h1 className='jumbotron text-center big-primary'>Online Education Market Place</h1>
+
                     <div className="graf-bg-container">
                         <div className="graf-layout">
                             <div className="graf-circle"></div>
