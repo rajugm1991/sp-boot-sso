@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import {
   Route,
-  Switch,
-  withRouter
+  Switch
 } from 'react-router-dom';
 import AppHeader from '../common/AppHeader';
 import Home from '../home/Home';

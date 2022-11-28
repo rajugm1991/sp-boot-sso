@@ -3,7 +3,6 @@ import './Signup.css';
 import { Link, Redirect } from 'react-router-dom'
 import SocialSignup from './SocialSignup';
 import SignupForm from './SignupForm';
-import {} from '@an'
 
 class Signup extends Component {
     render() {
