@@ -20,6 +20,8 @@ import './App.css';
 import { connect } from 'react-redux';
 import {fetchCurrentlyLoadedUser} from '../store/auth-action';
 import {authActions} from '../store/auth-slice'
+import dashboard from '../components/user/Dashboard';
+import Dashboard from '../components/user/Dashboard';
 
 class App extends Component {
 
@@ -52,6 +54,7 @@ class App extends Component {
             <Route exact path="/" component={Home}></Route>   
             <PrivateRoute path="/profile" authenticated={this.props.authenticated} currentUser={this.props.currentUser}
               component={Profile}></PrivateRoute>
+             <PrivateRoute path="/user/dashboard" authenticated={ this.props.authenticated} component={Dashboard} /> 
             <Route path="/login"
               render={(props) => <Login authenticated={this.props.authenticated} onLogin={this.props.loadCurrentlyLoggedInUser} {...props} />}></Route>
             <Route path="/signup"

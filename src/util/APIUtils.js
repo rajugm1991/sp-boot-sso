@@ -8,7 +8,6 @@ const request = (options) => {
     if(localStorage.getItem(ACCESS_TOKEN)) {
         headers.append('Authorization', 'Bearer ' + localStorage.getItem(ACCESS_TOKEN))
     }
-
     const defaults = {headers: headers};
     options = Object.assign({}, defaults, options);
 
@@ -41,6 +40,7 @@ export function login(loginRequest) {
         body: JSON.stringify(loginRequest)
     });
 }
+
 
 export function signup(signupRequest) {
     return request({
