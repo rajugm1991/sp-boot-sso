@@ -8,6 +8,7 @@ const request = (options) => {
     if(localStorage.getItem(ACCESS_TOKEN)) {
         headers.append('Authorization', 'Bearer ' + localStorage.getItem(ACCESS_TOKEN))
     }
+
     const defaults = {headers: headers};
     options = Object.assign({}, defaults, options);
 
@@ -33,6 +34,31 @@ export function getCurrentUser() {
     });
 }
 
+
+export function getRequest(url){
+    if(!localStorage.getItem(ACCESS_TOKEN)) {
+        return Promise.reject("No access token set.");
+    }
+    return request({
+        url:API_BASE_URL+url,
+        method:'GET',
+    })
+
+}
+
+
+export function postRequest(url,body){
+    if(!localStorage.getItem(ACCESS_TOKEN)) {
+        return Promise.reject("No access token set.");
+    }
+
+    return request({
+        url: API_BASE_URL + url,
+        method: 'POST',
+        body:JSON.stringify(body)
+    });
+}
+
 export function login(loginRequest) {
     return request({
         url: API_BASE_URL + "/auth/login",
@@ -40,7 +66,6 @@ export function login(loginRequest) {
         body: JSON.stringify(loginRequest)
     });
 }
-
 
 export function signup(signupRequest) {
     return request({

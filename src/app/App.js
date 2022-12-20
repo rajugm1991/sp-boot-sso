@@ -20,8 +20,17 @@ import './App.css';
 import { connect } from 'react-redux';
 import {fetchCurrentlyLoadedUser} from '../store/auth-action';
 import {authActions} from '../store/auth-slice'
-import dashboard from '../components/user/Dashboard';
 import Dashboard from '../components/user/Dashboard';
+import BecomeInstructor from '../components/instructor/BecomeInstructor';
+import stripeCallback from '../components/stripe/callback';
+import "../public/css/style.css";
+import InstructorIndex from '../components/instructor/create';
+
+//todo
+import "bootstrap/dist/css/bootstrap.min.css";
+import CreateCourse from '../components/instructor/create/create';
+
+
 
 class App extends Component {
 
@@ -45,16 +54,20 @@ class App extends Component {
     }
 
     return (
-      <div className="app">
+      <div className='app'>
         <div className="app-top-box">
           <AppHeader authenticated={this.props.authenticated} onLogout={this.handleLogout} />
         </div>
-        <div className="app-body">
+        <div className='app-body'>
           <Switch>
             <Route exact path="/" component={Home}></Route>   
             <PrivateRoute path="/profile" authenticated={this.props.authenticated} currentUser={this.props.currentUser}
               component={Profile}></PrivateRoute>
              <PrivateRoute path="/user/dashboard" authenticated={ this.props.authenticated} component={Dashboard} /> 
+             <PrivateRoute path="/user/becomeinstructor" authenticated={ this.props.authenticated} component={BecomeInstructor} /> 
+             <PrivateRoute path="/stripe/callback" authenticated={this.props.authenticated} component={stripeCallback}/>
+             <PrivateRoute path="/user/instructor/course/create" authenticated={this.props.authenticated} component={CreateCourse}/>
+             <PrivateRoute path="/user/instructor" authenticated={this.props.authenticated} component={InstructorIndex} />
             <Route path="/login"
               render={(props) => <Login authenticated={this.props.authenticated} onLogin={this.props.loadCurrentlyLoggedInUser} {...props} />}></Route>
             <Route path="/signup"
@@ -62,10 +75,10 @@ class App extends Component {
             <Route path="/oauth2/redirect" component={OAuth2RedirectHandler}></Route>  
             <Route component={NotFound}></Route>
           </Switch>
-        </div>
         <Alert stack={{limit: 3}} 
           timeout = {3000}
           position='top-right' effect='slide' offset={65} />
+          </div>
       </div>
     );
   }

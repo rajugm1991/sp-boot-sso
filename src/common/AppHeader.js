@@ -1,4 +1,4 @@
-import { CoffeeOutlined, LogoutOutlined } from '@ant-design/icons';
+import { CarryOutOutlined, CoffeeOutlined, LogoutOutlined, TeamOutlined } from '@ant-design/icons';
 import { Menu } from 'antd';
 import React, { Component } from 'react';
 import { useSelector } from 'react-redux';
@@ -31,14 +31,27 @@ const AppHeader =(props)=>{
                                 </NavLink> 
                                 </Item> 
                                 <Item key='/dashboard'>
-                                    <NavLink to='user/dashboard'>
+                                    <NavLink to='/user/dashboard'>
                                      Dashboard
                                     </NavLink>
 
                                 </Item>
+
+                                {user.currentUser.adminUser ?  <Item key='create_course'  icon={<CarryOutOutlined/>} className="float-right">
+                                <NavLink to='/user/createinstructor'>
+                                     Create Course
+                                    </NavLink>
+                                </Item>:
+                                 <Item key='Become_instructor'  icon={<TeamOutlined/>} className="float-right">
+                                 <NavLink to='/user/becomeinstructor'>
+                                     Become instructor
+                                    </NavLink>
+                             </Item>
+                                }
                                 <Item key='logout' onClick={props.onLogout} icon={<LogoutOutlined/>} className="float-right">
                                     Logout
                                 </Item>
+                               
                             </SubMenu>
                             </Menu>
                          
