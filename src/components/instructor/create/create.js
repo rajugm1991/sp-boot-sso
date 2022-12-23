@@ -15,13 +15,14 @@ const CreateCourse=()=>{
         imagePreview: "",
       });
     
+    const [imageField,setImageField]=useState({
+        fileList:[]
+    })
+
       const handleChange = (e) => {
         setValues({ ...values, [e.target.name]: e.target.value });
       };
     
-      const handleImage = () => {
-        //
-      };
     
       const handleSubmit = (e) => {
         setValues({...values,loading:true})
@@ -29,20 +30,21 @@ const CreateCourse=()=>{
         console.log(values);
       };
 
+      
 
     return(
         <InstructorRoute>
-            <h1 className="jumbotron text-center square">Create Course</h1>
-        <div className="pt-3 pb-3">
+
         <CourseCreateForm 
         handleSubmit={handleSubmit}
-        handleImage={handleImage}
         handleChange={handleChange}
         values={values}
         setValues={setValues}
+        setImageField={setImageField}
         />
-      </div>
       <pre>{JSON.stringify(values, null, 4)}</pre>
+      <pre>{JSON.stringify(imageField, null, 4)}</pre>
+
         </InstructorRoute>
     )
 }

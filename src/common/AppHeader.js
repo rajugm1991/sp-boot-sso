@@ -14,7 +14,7 @@ const AppHeader =(props)=>{
 
     return (
 
-        <header className="app-header">
+        <header className="app-header" >
         <div className="container">
             <div className="app-branding">
                 <Link to="/" className="app-title">Spring Social</Link>

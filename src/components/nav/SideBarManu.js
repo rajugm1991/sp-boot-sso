@@ -3,14 +3,24 @@ import React, { useState } from 'react';
 import {
   DesktopOutlined,
   FileOutlined,
+  LockOutlined,
   PieChartOutlined,
+  PoweroffOutlined,
+  SettingOutlined,
+  SolutionOutlined,
   TeamOutlined,
+  TranslationOutlined,
   UserOutlined,
 } from '@ant-design/icons';
-import { Breadcrumb, Layout, Menu } from 'antd';
+import { Avatar, Breadcrumb, Dropdown, Layout, Menu, theme } from 'antd';
 import { useHistory } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { authActions } from '../../store/auth-slice';
+import PrivateRoute from '../../common/PrivateRoute';
+import CreateCourse from '../instructor/create/create';
+import InstructorRoute from '../route/InstructorRoute';
+import InstructorIndex from '../instructor/create';
+import SubMenu from 'antd/es/menu/SubMenu';
 const { Header, Content, Footer, Sider } = Layout;
 function getItem(label, key, icon, children) {
   return {
@@ -22,8 +32,8 @@ function getItem(label, key, icon, children) {
 }
 
 const items = [
-    getItem('Home', '#', <PieChartOutlined />),
-    getItem('Dashboard', '/user/dashboard', <DesktopOutlined />),
+    getItem('Home', '/user/instructor/dashboard', <PieChartOutlined />),
+    getItem('Course', '/user/instructor/course/create', <DesktopOutlined />),
     getItem('User', 'sub1', <UserOutlined />, [
       getItem('Profile', '/profile'),
       getItem('Bill', '4'),
@@ -33,12 +43,43 @@ const items = [
     getItem('Logout', '/logout', <FileOutlined />),
   ];
 
+  
+
   const SideBarMenu=(props)=>{
+    const {
+      token: { colorBgContainer },
+    } = theme.useToken();
+
+    const user=useSelector(state=>state.auth);
+
     const [collapsed, setCollapsed] = useState(false);
 
     let history=useHistory();
 
     const dispatch=useDispatch();
+
+    const widgetMenu = (
+      <Menu mode="horizontal" theme="light" className="flex-setting" style={{display:'block'}}>
+      <SubMenu icon={<UserOutlined />} title={user.currentUser.name} style={{float:'right'}} >
+          <Menu.Item>
+  <SolutionOutlined className="icon" style={{minWidth:'25px'}} />
+  Profile
+  </Menu.Item>
+  <Menu.Item>
+  <LockOutlined className="icon" style={{minWidth:'25px'}} />
+              <a href='#' onClick={()=>dispatch(authActions.handleLogout())}>Signout</a>
+  </Menu.Item>
+  <Menu.Item>
+  <TranslationOutlined className="icon" style={{minWidth:'25px'}}/>
+  change language
+  </Menu.Item>
+  <Menu.Item>
+  <PoweroffOutlined className="icon"  style={{minWidth:'25px'}}/>
+  sign out
+  </Menu.Item>
+      </SubMenu>
+    </Menu>
+    );
 
     const onClick= (e) => {
         console.log('click ', e);
@@ -49,19 +90,37 @@ const items = [
         dispatch(authActions.handleLogout());
       };
     return (
+      <InstructorRoute>
         <Layout
           style={{
             minHeight: '100vh',
           }}
         >
-          <Sider collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>
-            <div className="logo" />
+          <Sider     collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>
+          <div
+          style={{
+            height: 32,
+            margin: 16,
+            color:'white'
+          }}
+        >
+          <h3>Application</h3>
+          </div>
             <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" items={items} onClick={onClick}/>
           </Sider>
           <Layout className="site-layout">
+          <Header
+          style={{
+            padding: 0,
+            background: colorBgContainer,
+          }}
+        >
+ <div className="logo" />
+         {widgetMenu}
+          </Header>
             <Content
               style={{
-                margin: '0 16px',
+                margin: '0 16px'
               }}
             >
               <Breadcrumb
@@ -77,9 +136,13 @@ const items = [
                 style={{
                   padding: 24,
                   minHeight: 360,
+                  background: colorBgContainer,
                 }}
               >
                 Bill is a cat.
+                <PrivateRoute path="/user/instructor/course/create" authenticated={user.authenticated} component={CreateCourse}/>
+                <PrivateRoute path="/user/instructor/dashboard" authenticated={user.authenticated} component={InstructorIndex}/>
+
               </div>
             </Content>
             <Footer
@@ -91,6 +154,7 @@ const items = [
             </Footer>
           </Layout>
         </Layout>
+        </InstructorRoute>
       );
     };
 

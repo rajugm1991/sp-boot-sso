@@ -8,18 +8,48 @@ import {
   DatePicker,
   InputNumber,
   Upload,
+  Modal,
 } from 'antd';
 const { RangePicker } = DatePicker;
 const { TextArea } = Input;
 
 
 const CourseCreateForm = ({ handleSubmit,
-    handleImage,
     handleChange,
     values,
-    setValues}) => {
+    setValues,setImageField}) => {
+
+      const [image, setImage]=useState({
+        previewVisible: false,
+        previewImage: "",
+        fileList: []
+      })
+
+      const { previewVisible, previewImage, fileList } = image;
 
   
+
+     const handlePreview = file => {
+        setImage(...image,{
+          previewImage: file.thumbUrl,
+          previewVisible: true
+        })
+      };
+    
+      const handleUpload = ({ fileList }) => {
+        //---------------^^^^^----------------
+        // this is equivalent to your "const img = event.target.files[0]"
+        // here, antd is giving you an array of files, just like event.target.files
+        // but the structure is a bit different that the original file
+        // the original file is located at the `originFileObj` key of each of this files
+        // so `event.target.files[0]` is actually fileList[0].originFileObj
+        console.log('fileList', fileList);
+        // you store them in state, so that you can make a http req with them later
+        setImage(...image,{fileList:fileList})
+       // setValues(...values,{fileList:fileList})
+       setImageField({fileList:fileList});
+      }
+
 
 
   return (
@@ -31,13 +61,13 @@ const CourseCreateForm = ({ handleSubmit,
           span: 14,
         }}
         layout="horizontal">
-        <Form.Item label="Name">
-          <Input name='name' placeholder='Name' label="Name" value={values.name} onChange={handleChange}/>
+        <Form.Item label="Name" rules={[{ required: true }]} value={values.name} onChange={handleChange} >
+          <Input name='name' placeholder='Name' label="Name" />
         </Form.Item>
-        <Form.Item label="Category">
+        <Form.Item label="Category" rules={[{ required: true }]}>
           <Input name='category' placeholder='Category' value={values.category} onChange={handleChange}/>
         </Form.Item>
-        <Form.Item label="Description">
+        <Form.Item label="Description" rules={[{ required: true }]}>
           <Input.TextArea rows={4} placeholder="Description" name='desc' value={values.desc} onChange={handleChange}/>
         </Form.Item>
         <Form.Item label="Select">
@@ -52,7 +82,12 @@ const CourseCreateForm = ({ handleSubmit,
         </Form.Item>}
      
         <Form.Item label= {values.loading ? "Uploading" : "Image Upload"} valuePropName="fileList">
-          <Upload action="/upload.do" listType="picture-card" beforeUpload={()=>false}>
+          <Upload       
+           listType="picture-card"
+          fileList={fileList}
+          onPreview={handlePreview}
+          onChange={handleUpload}
+          beforeUpload={() => false} >
             <div>
               <PlusOutlined />
               <div
@@ -64,6 +99,13 @@ const CourseCreateForm = ({ handleSubmit,
               </div>
             </div>
           </Upload>
+        <Modal
+          visible={previewVisible}
+          footer={null}
+          onCancel={()=>setImage(...image,{previewImage:false})}
+        >
+          <img alt="example" style={{ width: "100%" }} src={previewImage} />
+        </Modal>
         </Form.Item>
         <Form.Item label="">
           <Button onClick={handleSubmit}
