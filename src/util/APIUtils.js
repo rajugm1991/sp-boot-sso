@@ -23,6 +23,28 @@ const request = (options) => {
     );
 };
 
+const makeFormDataRequest=(options)=>{
+
+    const headers = new Headers({
+    })
+
+    if(localStorage.getItem(ACCESS_TOKEN)) {
+        headers.append('Authorization', 'Bearer ' + localStorage.getItem(ACCESS_TOKEN))
+    }
+    const defaults = {headers: headers};
+
+    options = Object.assign({},defaults, options);
+    return fetch(options.url, options)
+    .then(response => 
+        response.json().then(json => {
+            if(!response.ok) {
+                return Promise.reject(json);
+            }
+            return json;
+        })
+    );
+}
+
 export function getCurrentUser() {
     if(!localStorage.getItem(ACCESS_TOKEN)) {
         return Promise.reject("No access token set.");
@@ -56,6 +78,18 @@ export function postRequest(url,body){
         url: API_BASE_URL + url,
         method: 'POST',
         body:JSON.stringify(body)
+    });
+}
+
+export function postFormDataRequest(url,formData){
+    if(!localStorage.getItem(ACCESS_TOKEN)) {
+        return Promise.reject("No access token set.");
+    }
+
+    return makeFormDataRequest({
+        url: API_BASE_URL + url,
+        method: 'POST',
+        body:formData
     });
 }
 

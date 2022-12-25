@@ -21,6 +21,7 @@ import CreateCourse from '../instructor/create/create';
 import InstructorRoute from '../route/InstructorRoute';
 import InstructorIndex from '../instructor/create';
 import SubMenu from 'antd/es/menu/SubMenu';
+import CourseList from '../instructor/create/CourseList';
 const { Header, Content, Footer, Sider } = Layout;
 function getItem(label, key, icon, children) {
   return {
@@ -33,7 +34,7 @@ function getItem(label, key, icon, children) {
 
 const items = [
     getItem('Home', '/user/instructor/dashboard', <PieChartOutlined />),
-    getItem('Course', '/user/instructor/course/create', <DesktopOutlined />),
+    getItem('Course', '/user/instructor/course', <DesktopOutlined />),
     getItem('User', 'sub1', <UserOutlined />, [
       getItem('Profile', '/profile'),
       getItem('Bill', '4'),
@@ -139,8 +140,8 @@ const items = [
                   background: colorBgContainer,
                 }}
               >
-                Bill is a cat.
-                <PrivateRoute path="/user/instructor/course/create" authenticated={user.authenticated} component={CreateCourse}/>
+                                <PrivateRoute exact path="/user/instructor/course/create" authenticated={user.authenticated} component={CreateCourse}/>
+                <PrivateRoute exact path="/user/instructor/course" authenticated={user.authenticated} component={CourseList}/>
                 <PrivateRoute path="/user/instructor/dashboard" authenticated={user.authenticated} component={InstructorIndex}/>
 
               </div>

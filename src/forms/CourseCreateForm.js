@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { PlusOutlined } from '@ant-design/icons';
+import { CloseOutlined, PlusOutlined, PoweroffOutlined, RestOutlined, SaveOutlined } from '@ant-design/icons';
 import {
   Form,
   Input,
@@ -9,7 +9,9 @@ import {
   InputNumber,
   Upload,
   Modal,
+  Space,
 } from 'antd';
+import { useHistory } from 'react-router-dom';
 const { RangePicker } = DatePicker;
 const { TextArea } = Input;
 
@@ -19,11 +21,31 @@ const CourseCreateForm = ({ handleSubmit,
     values,
     setValues,setImageField}) => {
 
+      const validateMessages = {
+        required: '${label} is required!',
+        types: {
+          email: '${label} is not a valid email!',
+          number: '${label} is not a valid number!',
+        },
+        number: {
+          range: '${label} must be between ${min} and ${max}',
+        },
+      };
+
+  
+      const tailLayout = {
+        wrapperCol: {
+          offset: 4,
+          span: 30,
+        },
+      };
+
       const [image, setImage]=useState({
         previewVisible: false,
         previewImage: "",
         fileList: []
       })
+
 
       const { previewVisible, previewImage, fileList } = image;
 
@@ -49,23 +71,55 @@ const CourseCreateForm = ({ handleSubmit,
        // setValues(...values,{fileList:fileList})
        setImageField({fileList:fileList});
       }
+   
+        const [form] = Form.useForm();
 
+      const onReset = () => {
+        form.resetFields();
+        restState();
+        
+      };
+      
 
+      const restState=()=>{
+        setValues({
+          name: "",
+          category:"",
+          desc: "",
+          price: "9",
+          uploading: false,
+          paid: true,
+          loading: false,
+          imagePreview: "",
+        });
+        setImage({
+          fileList:[]
+        })
+      }
+      const history=useHistory();
 
+      const onCancel=()=>{
+        history.goBack()
+
+      }
   return (
     <React.Fragment>
-   <Form  labelCol={{
+   <Form form={form}  labelCol={{
           span: 4,
         }}
         wrapperCol={{
           span: 14,
         }}
-        layout="horizontal">
-        <Form.Item label="Name" rules={[{ required: true }]} value={values.name} onChange={handleChange} >
-          <Input name='name' placeholder='Name' label="Name" />
+        layout="horizontal" name="nest-messages" validateMessages={validateMessages} onFinish={handleSubmit}>
+        <Form.Item label="Name" name={['user', 'name']} rules={[
+          {
+            required: true,
+          },
+        ]} value={values.name} onChange={handleChange}  >
+          <Input name='name' placeholder='Name' label="Name" value={values.name}/>
         </Form.Item>
-        <Form.Item label="Category" rules={[{ required: true }]}>
-          <Input name='category' placeholder='Category' value={values.category} onChange={handleChange}/>
+        <Form.Item label="Category" name={['user', 'category']} rules={[{ required: true }]} value={values.category} onChange={handleChange}>
+          <Input name='category' placeholder='Category' />
         </Form.Item>
         <Form.Item label="Description" rules={[{ required: true }]}>
           <Input.TextArea rows={4} placeholder="Description" name='desc' value={values.desc} onChange={handleChange}/>
@@ -77,8 +131,15 @@ const CourseCreateForm = ({ handleSubmit,
           </Select>
         </Form.Item>
 
-       {values.paid&& <Form.Item label="Price">
-          <InputNumber min="0" value={values.price} name="price" onChange={(v)=>setValues({...values,price:v})}/>
+       {values.paid&& <Form.Item name={['user','price']} label="Price" value={values.price} 
+         rules={[
+          {
+            type: 'number',
+            min: 500,
+            max: 2500,
+          },
+        ]}>
+          <InputNumber  name="price" onChange={(v)=>setValues({...values,price:v})} />
         </Form.Item>}
      
         <Form.Item label= {values.loading ? "Uploading" : "Image Upload"} valuePropName="fileList">
@@ -107,11 +168,20 @@ const CourseCreateForm = ({ handleSubmit,
           <img alt="example" style={{ width: "100%" }} src={previewImage} />
         </Modal>
         </Form.Item>
-        <Form.Item label="">
-          <Button onClick={handleSubmit}
-          disabled={values.loading || values.uploading} loading={values.loading} type="primary">       
-             {values.loading ? "Saving..." : "Save & Continue"}
+        <Form.Item {...tailLayout}>
+        <Space>
+
+          <Button
+           loading={values.loading} size="middle" type="primary" htmlType='submit' icon={<SaveOutlined />}>       
+             {values.loading ? "Saving..." : "Save"}
           </Button>
+          <Button htmlType="button" onClick={onReset} icon={<RestOutlined />} size="middle">
+          Reset
+        </Button>
+        <Button htmlType="button" onClick={onCancel} icon={<CloseOutlined />} size="middle">
+          Cancel
+        </Button>
+        </Space>
         </Form.Item>
       </Form>
     </React.Fragment>

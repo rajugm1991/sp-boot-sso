@@ -1,9 +1,13 @@
-import React,{useState} from "react";
+import { message } from "antd";
+import React,{useEffect, useState} from "react";
+import { useHistory, useLocation } from "react-router-dom";
 import CourseCreateForm from "../../../forms/CourseCreateForm";
+import { postFormDataRequest, postRequest } from "../../../util/APIUtils";
 import InstructorRoute from "../../route/InstructorRoute";
 
 const CreateCourse=()=>{
 
+   
     const [values, setValues] = useState({
         name: "",
         category:"",
@@ -14,6 +18,9 @@ const CreateCourse=()=>{
         loading: false,
         imagePreview: "",
       });
+
+      console.log(values);
+
     
     const [imageField,setImageField]=useState({
         fileList:[]
@@ -23,18 +30,39 @@ const CreateCourse=()=>{
         setValues({ ...values, [e.target.name]: e.target.value });
       };
     
+      const history=useHistory();
     
-      const handleSubmit = (e) => {
+      const handleSubmit = () => {
         setValues({...values,loading:true})
-        e.preventDefault();
         console.log(values);
+
+        //submit starts here
+        let formData = new FormData();
+        if(imageField.fileList.length>0){
+        formData.append("file", imageField.fileList[0].originFileObj);
+        }
+        formData.append("course",new Blob([JSON.stringify(values)], {
+            type: "application/json"
+        }));
+        console.log('formadata'+formData);
+        postFormDataRequest('/user/admin/api/course',formData).then((res)=>{
+            message.success('Course added successfully')
+            history.push("/user/instructor/course")
+        }).catch((err)=>{
+            message.error('Something went wrong! Please try again.')
+            setValues({...values,loading:false})
+
+        });
+      
+
       };
 
       
 
     return(
+        <React.Fragment>
         <InstructorRoute>
-
+            <h6>Create Course</h6>
         <CourseCreateForm 
         handleSubmit={handleSubmit}
         handleChange={handleChange}
@@ -42,10 +70,8 @@ const CreateCourse=()=>{
         setValues={setValues}
         setImageField={setImageField}
         />
-      <pre>{JSON.stringify(values, null, 4)}</pre>
-      <pre>{JSON.stringify(imageField, null, 4)}</pre>
-
         </InstructorRoute>
+        </React.Fragment>
     )
 }
 
