@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit"
+import { ACCESS_TOKEN } from "../constants";
 
 
 const INITIALSTATE={
@@ -19,6 +20,7 @@ const authSlice=createSlice({
             state.loading=action.payload.loading;
         },
         handleLogout(state,action){
+            localStorage.removeItem(ACCESS_TOKEN);
             state.currentUser={};
             state.authenticated=false;
             state.loading=false;

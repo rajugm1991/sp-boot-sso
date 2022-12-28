@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { ACCESS_TOKEN } from '../../constants';
 import { Redirect } from 'react-router-dom'
+import { connect } from 'react-redux';
+import { fetchCurrentlyLoadedUser } from '../../store/auth-action';
 
 class OAuth2RedirectHandler extends Component {
     getUrlParameter(name) {
@@ -17,6 +19,7 @@ class OAuth2RedirectHandler extends Component {
 
         if(token) {
             localStorage.setItem(ACCESS_TOKEN, token);
+            this.props.loadCurrentlyLoggedInUser();
             return <Redirect to={{
                 pathname: "/profile",
                 state: { from: this.props.location }
@@ -33,4 +36,9 @@ class OAuth2RedirectHandler extends Component {
     }
 }
 
-export default OAuth2RedirectHandler;
+const mapDispatchToProps=(dispatch)=>{
+    return {
+        loadCurrentlyLoggedInUser:()=>dispatch(fetchCurrentlyLoadedUser())
+    }
+}
+export default  connect(null,mapDispatchToProps)(OAuth2RedirectHandler);
