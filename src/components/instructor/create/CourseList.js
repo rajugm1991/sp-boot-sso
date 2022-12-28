@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { Button, Space, Table, Tag } from 'antd';
+import { Button, message, Popconfirm, Space, Table, Tag } from 'antd';
 import { useHistory } from "react-router-dom";
-import { getRequest } from "../../../util/APIUtils";
+import { deleteRequest, getRequest } from "../../../util/APIUtils";
 import { PlusOutlined, UserAddOutlined } from "@ant-design/icons";
 
 
@@ -56,10 +56,21 @@ const CourseList=()=>{
           render: (_, record) => (
             <Space size="middle">
                 <Button  onClick={()=>history.push( {
-           pathname: 'course/create',
+           pathname: 'course/view',
            state: {id:record.id,type:'update',data:record}
-       } )} id={record.id}>Edit</Button>
-              <a href="#">Delete</a>
+       } )} id={record.id}>View Course</Button>
+       
+       <Popconfirm
+    title="Delete Course"
+    description="Are you sure to delete this course ?"
+    onConfirm={()=>{external(record.id)}}
+    onCancel={()=>{console.log('cancel')}}
+    okText="Yes"
+    cancelText="No"
+  >
+    <a href="#">Delete</a>
+  </Popconfirm>
+             {/* <Button className="primary" id={record.id} onClick={()=>{console.log(record.id)}}>Delete</Button> */}
             </Space>
           ),
         },
@@ -68,6 +79,18 @@ const CourseList=()=>{
     const [load,setLoad]=useState(false);
 
 
+
+    const external=(id)=>{
+
+        deleteRequest("/user/admin/api/course/"+id).then((res)=>{
+          message.success("Course deleted successfully")
+          setData(data=>data.filter(rec=>rec.id!==id))
+        }).catch((err)=>{
+            message.error(" Error occured while deleting course!!")
+        })
+    }
+
+     
 
 
     const [data,setData] =useState([]);

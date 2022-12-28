@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { CloseOutlined, PlusOutlined, PoweroffOutlined, RestOutlined, SaveOutlined } from '@ant-design/icons';
 import {
   Form,
@@ -57,6 +57,8 @@ const CourseCreateForm = ({ handleSubmit,
           previewVisible: true
         })
       };
+
+    
     
       const handleUpload = ({ fileList }) => {
         //---------------^^^^^----------------

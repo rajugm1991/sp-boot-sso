@@ -68,6 +68,16 @@ export function getRequest(url){
 
 }
 
+export function deleteRequest(url){
+    if(!localStorage.getItem(ACCESS_TOKEN)) {
+        return Promise.reject("No access token set.");
+    }
+    return request({
+        url:API_BASE_URL+url,
+        method:'DELETE',
+    })
+}
+
 
 export function postRequest(url,body){
     if(!localStorage.getItem(ACCESS_TOKEN)) {

@@ -17,9 +17,8 @@ const CreateCourse=()=>{
         paid: true,
         loading: false,
         imagePreview: "",
+        isPublished:"false"
       });
-
-      console.log(values);
 
     
     const [imageField,setImageField]=useState({

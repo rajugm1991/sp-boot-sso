@@ -22,6 +22,7 @@ import InstructorRoute from '../route/InstructorRoute';
 import InstructorIndex from '../instructor/create';
 import SubMenu from 'antd/es/menu/SubMenu';
 import CourseList from '../instructor/create/CourseList';
+import CourseView from '../instructor/create/CourseView';
 const { Header, Content, Footer, Sider } = Layout;
 function getItem(label, key, icon, children) {
   return {
@@ -140,7 +141,8 @@ const items = [
                   background: colorBgContainer,
                 }}
               >
-                                <PrivateRoute exact path="/user/instructor/course/create" authenticated={user.authenticated} component={CreateCourse}/>
+                 <PrivateRoute exact path="/user/instructor/course/view" authenticated={user.authenticated} component={CourseView}/>
+                <PrivateRoute exact path="/user/instructor/course/create" authenticated={user.authenticated} component={CreateCourse}/>
                 <PrivateRoute exact path="/user/instructor/course" authenticated={user.authenticated} component={CourseList}/>
                 <PrivateRoute path="/user/instructor/dashboard" authenticated={user.authenticated} component={InstructorIndex}/>
 
