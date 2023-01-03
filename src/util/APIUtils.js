@@ -91,6 +91,18 @@ export function postRequest(url,body){
     });
 }
 
+export function genericMethodRequest(url,body,methodType){
+    if(!localStorage.getItem(ACCESS_TOKEN)) {
+        return Promise.reject("No access token set.");
+    }
+
+    return request({
+        url: API_BASE_URL + url,
+        method: methodType,
+        body:JSON.stringify(body)
+    });
+}
+
 export function postFormDataRequest(url,formData){
     if(!localStorage.getItem(ACCESS_TOKEN)) {
         return Promise.reject("No access token set.");

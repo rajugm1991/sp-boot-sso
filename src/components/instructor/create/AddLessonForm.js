@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from "react";
-import { Button, Form, Input, Space, Upload } from "antd";
-import TextArea from "antd/es/input/TextArea";
-import { PlusOutlined, SyncOutlined, UploadOutlined } from "@ant-design/icons";
+import { PlusOutlined, UploadOutlined } from "@ant-design/icons";
+import { Button, Form, Input, Progress, Space, Upload } from "antd";
+import React from "react";
 
 const AddLessonForm = ({
   values,
@@ -10,7 +9,8 @@ const AddLessonForm = ({
   handleCancel,
   setVideoList,
   form,
-  videoList
+  videoList,
+  progress
 }) => {
 
 
@@ -88,6 +88,8 @@ const AddLessonForm = ({
           </Upload>
 
           </Form.Item>
+      
+
 
       <Form.Item
         wrapperCol={{
@@ -103,7 +105,9 @@ const AddLessonForm = ({
           icon={<PlusOutlined />}
           loading={values.loading}
         >
- {values.loading ?'Saving..' :'Submit'}</Button>
+     {values.loading ?'Saving..' :'Submit'}
+ 
+ </Button>
 
         {/* <Button type="primary" htmlType="submit">
          {values.loading ?<SyncOutlined spin /> :'Submit'} 
@@ -113,6 +117,8 @@ const AddLessonForm = ({
         </Button>
         </Space>
       </Form.Item>
+      <br/>
+      {progress>0 && <Progress className="d-flex justify-content-center pt-2" percent={progress} steps={10}/> }
     </Form>
 
 

@@ -1,37 +1,48 @@
-import React, { useEffect, useState } from 'react';
-import { CloseOutlined, PlusOutlined, PoweroffOutlined, RestOutlined, SaveOutlined } from '@ant-design/icons';
+import { CloseOutlined, PlusOutlined, RestOutlined, SaveOutlined, UserOutlined } from '@ant-design/icons';
 import {
-  Form,
-  Input,
-  Button,
-  Select,
-  DatePicker,
-  InputNumber,
-  Upload,
-  Modal,
-  Space,
+  Avatar, Button, Form,
+  Input, InputNumber, Modal, Select, Space, Upload
 } from 'antd';
+import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-const { RangePicker } = DatePicker;
-const { TextArea } = Input;
+
 
 
 const CourseCreateForm = ({ handleSubmit,
     handleChange,
     values,
-    setValues,setImageField}) => {
+    setValues,setImageField,location}) => {
 
+      const [form] = Form.useForm();
+
+      const[edit,setEdit]=useState(false);
+
+
+      // eslint-disable-next-line
       const validateMessages = {
+        // eslint-disable-next-line
         required: '${label} is required!',
         types: {
+          // eslint-disable-next-line
           email: '${label} is not a valid email!',
+          // eslint-disable-next-line
           number: '${label} is not a valid number!',
         },
         number: {
+          // eslint-disable-next-line
           range: '${label} must be between ${min} and ${max}',
         },
       };
 
+      useEffect(()=>{
+        if(location&&location.state&&location.state.type==='EditCourse'){
+          console.log('setting field values.....')
+          setEdit(true);
+          form.setFieldsValue({
+            ...values
+          })
+        }
+      },[values])
   
       const tailLayout = {
         wrapperCol: {
@@ -74,7 +85,6 @@ const CourseCreateForm = ({ handleSubmit,
        setImageField({fileList:fileList});
       }
    
-        const [form] = Form.useForm();
 
       const onReset = () => {
         form.resetFields();
@@ -104,6 +114,8 @@ const CourseCreateForm = ({ handleSubmit,
         history.goBack()
 
       }
+
+      
   return (
     <React.Fragment>
    <Form form={form}  labelCol={{
@@ -113,14 +125,14 @@ const CourseCreateForm = ({ handleSubmit,
           span: 14,
         }}
         layout="horizontal" name="nest-messages" validateMessages={validateMessages} onFinish={handleSubmit}>
-        <Form.Item label="Name" name={['user', 'name']} rules={[
+        <Form.Item label="Name" name="name" rules={[
           {
             required: true,
           },
         ]} value={values.name} onChange={handleChange}  >
           <Input name='name' placeholder='Name' label="Name" value={values.name}/>
         </Form.Item>
-        <Form.Item label="Category" name={['user', 'category']} rules={[{ required: true }]} value={values.category} onChange={handleChange}>
+        <Form.Item label="Category" name='category' rules={[{ required: true }]} value={values.category} onChange={handleChange}>
           <Input name='category' placeholder='Category' />
         </Form.Item>
         <Form.Item label="Description" rules={[{ required: true }]}>
@@ -133,7 +145,7 @@ const CourseCreateForm = ({ handleSubmit,
           </Select>
         </Form.Item>
 
-       {values.paid&& <Form.Item name={['user','price']} label="Price" value={values.price} 
+       {values.paid&& <Form.Item name='price' label="Price" value={values.price} 
          rules={[
           {
             type: 'number',
@@ -144,7 +156,7 @@ const CourseCreateForm = ({ handleSubmit,
           <InputNumber  name="price" onChange={(v)=>setValues({...values,price:v})} />
         </Form.Item>}
      
-        <Form.Item label= {values.loading ? "Uploading" : "Image Upload"} valuePropName="fileList">
+       { !edit && <Form.Item label= {values.loading ? "Uploading" : "Image Upload"} valuePropName="fileList">
           <Upload       
            listType="picture-card"
           fileList={fileList}
@@ -163,21 +175,27 @@ const CourseCreateForm = ({ handleSubmit,
             </div>
           </Upload>
         <Modal
-          visible={previewVisible}
+          open={previewVisible}
           footer={null}
           onCancel={()=>setImage(...image,{previewImage:false})}
         >
           <img alt="example" style={{ width: "100%" }} src={previewImage} />
         </Modal>
+        </Form.Item>}
+
+        {edit && 
+        <Form.Item label="Image Preview">
+         <Avatar size={64} icon={<UserOutlined />} src={values.courseImage.url} />
         </Form.Item>
+        }
         <Form.Item {...tailLayout}>
         <Space>
 
           <Button
            loading={values.loading} size="middle" type="primary" htmlType='submit' icon={<SaveOutlined />}>       
-             {values.loading ? "Saving..." : "Save"}
+             {!edit ?values.loading ? "Saving..." : "Save" :(values.loading ? "Updating..." : "Update" )}
           </Button>
-          <Button htmlType="button" onClick={onReset} icon={<RestOutlined />} size="middle">
+          <Button htmlType="button" disabled={edit} onClick={onReset} icon={<RestOutlined />} size="middle">
           Reset
         </Button>
         <Button htmlType="button" onClick={onCancel} icon={<CloseOutlined />} size="middle">

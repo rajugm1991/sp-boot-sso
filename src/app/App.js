@@ -1,35 +1,33 @@
+import "antd/dist/reset.css";
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import {
   Route,
   Switch
 } from 'react-router-dom';
-import AppHeader from '../common/AppHeader';
-import Home from '../home/Home';
-import Login from '../user/login/Login';
-import Signup from '../user/signup/Signup';
-import Profile from '../user/profile/Profile';
-import OAuth2RedirectHandler from '../user/oauth2/OAuth2RedirectHandler';
-import NotFound from '../common/NotFound';
-import LoadingIndicator from '../common/LoadingIndicator';
-import { ACCESS_TOKEN } from '../constants';
-import PrivateRoute from '../common/PrivateRoute';
 import Alert from 'react-s-alert';
-import 'react-s-alert/dist/s-alert-default.css';
 import 'react-s-alert/dist/s-alert-css-effects/slide.css';
-import './App.css';
-import { connect } from 'react-redux';
-import {fetchCurrentlyLoadedUser} from '../store/auth-action';
-import {authActions} from '../store/auth-slice'
-import Dashboard from '../components/user/Dashboard';
+import 'react-s-alert/dist/s-alert-default.css';
+import AppHeader from '../common/AppHeader';
+import LoadingIndicator from '../common/LoadingIndicator';
+import NotFound from '../common/NotFound';
+import PrivateRoute from '../common/PrivateRoute';
 import BecomeInstructor from '../components/instructor/BecomeInstructor';
 import stripeCallback from '../components/stripe/callback';
+import Dashboard from '../components/user/Dashboard';
+import { ACCESS_TOKEN } from '../constants';
+import Home from '../home/Home';
 import "../public/css/style.css";
-import InstructorIndex from '../components/instructor/create';
-import "antd/dist/reset.css"
+import { fetchCurrentlyLoadedUser } from '../store/auth-action';
+import { authActions } from '../store/auth-slice';
+import Login from '../user/login/Login';
+import OAuth2RedirectHandler from '../user/oauth2/OAuth2RedirectHandler';
+import Profile from '../user/profile/Profile';
+import Signup from '../user/signup/Signup';
+import './App.css';
 
 //todo
 import "bootstrap/dist/css/bootstrap.min.css";
-import CreateCourse from '../components/instructor/create/create';
 import SideBarMenu from '../components/nav/SideBarManu';
 
 

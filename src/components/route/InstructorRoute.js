@@ -1,14 +1,10 @@
 import { SyncOutlined } from "@ant-design/icons";
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { getRequest } from "../../util/APIUtils";
-import InstructorNav from "../nav/InstructorNav";
 
 
 const InstructorRoute = ({children})=>{
-
-    const user = useSelector(state => state.auth)
 
     const history=useHistory();
 
@@ -22,7 +18,7 @@ const InstructorRoute = ({children})=>{
     const fetchInstructor=async ()=>{
 
         try{
-            const response=await getRequest('/user/api/stripe/get-active-account');
+            await getRequest('/user/api/stripe/get-active-account');
             setOk(true);
         }catch(err){
             setOk(false);

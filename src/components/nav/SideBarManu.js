@@ -5,24 +5,22 @@ import {
   FileOutlined,
   LockOutlined,
   PieChartOutlined,
-  PoweroffOutlined,
-  SettingOutlined,
-  SolutionOutlined,
+  PoweroffOutlined, SolutionOutlined,
   TeamOutlined,
   TranslationOutlined,
-  UserOutlined,
+  UserOutlined
 } from '@ant-design/icons';
-import { Avatar, Breadcrumb, Dropdown, Layout, Menu, theme } from 'antd';
-import { useHistory } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { authActions } from '../../store/auth-slice';
-import PrivateRoute from '../../common/PrivateRoute';
-import CreateCourse from '../instructor/create/create';
-import InstructorRoute from '../route/InstructorRoute';
-import InstructorIndex from '../instructor/create';
+import { Breadcrumb, Layout, Menu, theme } from 'antd';
 import SubMenu from 'antd/es/menu/SubMenu';
+import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import PrivateRoute from '../../common/PrivateRoute';
+import { authActions } from '../../store/auth-slice';
+import InstructorIndex from '../instructor/create';
 import CourseList from '../instructor/create/CourseList';
 import CourseView from '../instructor/create/CourseView';
+import CreateCourse from '../instructor/create/create';
+import InstructorRoute from '../route/InstructorRoute';
 const { Header, Content, Footer, Sider } = Layout;
 function getItem(label, key, icon, children) {
   return {
@@ -62,14 +60,14 @@ const items = [
 
     const widgetMenu = (
       <Menu mode="horizontal" theme="light" className="flex-setting" style={{display:'block'}}>
-      <SubMenu icon={<UserOutlined />} title={user.currentUser.name} style={{float:'right'}} >
+      <SubMenu icon={<UserOutlined />} title={user.currentUser.name} key={user.currentUser.id} style={{float:'right'}} >
           <Menu.Item>
   <SolutionOutlined className="icon" style={{minWidth:'25px'}} />
   Profile
   </Menu.Item>
   <Menu.Item>
   <LockOutlined className="icon" style={{minWidth:'25px'}} />
-              <a href='#' onClick={()=>dispatch(authActions.handleLogout())}>Signout</a>
+              <a href={() => false}  onClick={()=>dispatch(authActions.handleLogout())}>Signout</a>
   </Menu.Item>
   <Menu.Item>
   <TranslationOutlined className="icon" style={{minWidth:'25px'}}/>
@@ -106,7 +104,7 @@ const items = [
             color:'white'
           }}
         >
-          <h3>Application</h3>
+          <h5>Admin</h5>
           </div>
             <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" items={items} onClick={onClick}/>
           </Sider>
@@ -141,6 +139,7 @@ const items = [
                   background: colorBgContainer,
                 }}
               >
+                <PrivateRoute exact path="/user/instructor/course/edit" authenticated={user.authenticated} component={CreateCourse}/>
                  <PrivateRoute exact path="/user/instructor/course/view" authenticated={user.authenticated} component={CourseView}/>
                 <PrivateRoute exact path="/user/instructor/course/create" authenticated={user.authenticated} component={CreateCourse}/>
                 <PrivateRoute exact path="/user/instructor/course" authenticated={user.authenticated} component={CourseList}/>
