@@ -2,7 +2,7 @@ import { message } from "antd";
 import React,{useEffect, useState} from "react";
 import { useHistory, useLocation } from "react-router-dom";
 import CourseCreateForm from "../../../forms/CourseCreateForm";
-import { postFormDataRequest, postRequest } from "../../../util/APIUtils";
+import { genericMethodRequest, getRequest, postFormDataRequest, postRequest } from "../../../util/APIUtils";
 import InstructorRoute from "../../route/InstructorRoute";
 
 const CreateCourse=()=>{
@@ -17,10 +17,30 @@ const CreateCourse=()=>{
         paid: true,
         loading: false,
         imagePreview: "",
-        isPublished:"false"
+        isPublished:"false",
+        courseImage:{
+            url:""
+        }
       });
-
     
+    const location=useLocation();
+
+    const [isEdit,setIsEdit]=useState(false);
+
+    useEffect(()=>{
+        //if it has state
+        if(location&& location.state&&location.state.id){
+            setIsEdit(true);
+            getRequest("/user/admin/api/course/"+location.state.id).then((res)=>{
+                console.log(res)
+                setValues({...res.data,desc:res.data.description})
+            }).catch((error)=>{
+                message.error(error.message);
+                history.goBack();
+            })
+        }
+    },[])
+
     const [imageField,setImageField]=useState({
         fileList:[]
     })
@@ -35,6 +55,24 @@ const CreateCourse=()=>{
         setValues({...values,loading:true})
         console.log(values);
 
+        //update
+        if(isEdit){
+            genericMethodRequest('/user/admin/api/course/'+location.state.id,values,'PUT').then((res)=>{
+                message.success(res.message);
+                 history.push({
+                    pathname:'/user/instructor/course/view',
+                    state:{
+                        id:location.state.id
+                    }
+                })
+            }).catch((err)=>{
+                console.log('error while updating course '+err)
+                message.error('Something went wrong! Please try again.')
+                setValues({...values,loading:false})
+            })
+
+        }
+        else{
         //submit starts here
         let formData = new FormData();
         if(imageField.fileList.length>0){
@@ -52,7 +90,7 @@ const CreateCourse=()=>{
             setValues({...values,loading:false})
 
         });
-      
+    }
 
       };
 
@@ -68,6 +106,7 @@ const CreateCourse=()=>{
         values={values}
         setValues={setValues}
         setImageField={setImageField}
+        location={location}
         />
         </InstructorRoute>
         </React.Fragment>

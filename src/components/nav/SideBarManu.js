@@ -106,7 +106,7 @@ const items = [
             color:'white'
           }}
         >
-          <h3>Application</h3>
+          <h5>Admin</h5>
           </div>
             <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" items={items} onClick={onClick}/>
           </Sider>
@@ -141,6 +141,7 @@ const items = [
                   background: colorBgContainer,
                 }}
               >
+                <PrivateRoute exact path="/user/instructor/course/edit" authenticated={user.authenticated} component={CreateCourse}/>
                  <PrivateRoute exact path="/user/instructor/course/view" authenticated={user.authenticated} component={CourseView}/>
                 <PrivateRoute exact path="/user/instructor/course/create" authenticated={user.authenticated} component={CreateCourse}/>
                 <PrivateRoute exact path="/user/instructor/course" authenticated={user.authenticated} component={CourseList}/>
