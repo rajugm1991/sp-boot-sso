@@ -6,6 +6,7 @@ import { fetchCurrentlyLoadedUser } from '../../store/auth-action';
 
 class OAuth2RedirectHandler extends Component {
     getUrlParameter(name) {
+        // eslint-disable-next-line
         name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
         var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
 

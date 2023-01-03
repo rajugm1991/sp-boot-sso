@@ -1,20 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import { CloseOutlined, PlusOutlined, PoweroffOutlined, RestOutlined, SaveOutlined, UserOutlined } from '@ant-design/icons';
+import { CloseOutlined, PlusOutlined, RestOutlined, SaveOutlined, UserOutlined } from '@ant-design/icons';
 import {
-  Form,
-  Input,
-  Button,
-  Select,
-  DatePicker,
-  InputNumber,
-  Upload,
-  Modal,
-  Space,
-  Avatar,
+  Avatar, Button, Form,
+  Input, InputNumber, Modal, Select, Space, Upload
 } from 'antd';
+import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-const { RangePicker } = DatePicker;
-const { TextArea } = Input;
+
 
 
 const CourseCreateForm = ({ handleSubmit,
@@ -27,13 +18,18 @@ const CourseCreateForm = ({ handleSubmit,
       const[edit,setEdit]=useState(false);
 
 
+      // eslint-disable-next-line
       const validateMessages = {
+        // eslint-disable-next-line
         required: '${label} is required!',
         types: {
+          // eslint-disable-next-line
           email: '${label} is not a valid email!',
+          // eslint-disable-next-line
           number: '${label} is not a valid number!',
         },
         number: {
+          // eslint-disable-next-line
           range: '${label} must be between ${min} and ${max}',
         },
       };
@@ -179,7 +175,7 @@ const CourseCreateForm = ({ handleSubmit,
             </div>
           </Upload>
         <Modal
-          visible={previewVisible}
+          open={previewVisible}
           footer={null}
           onCancel={()=>setImage(...image,{previewImage:false})}
         >

@@ -1,8 +1,8 @@
 import { message } from "antd";
-import React,{useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import { useHistory, useLocation } from "react-router-dom";
 import CourseCreateForm from "../../../forms/CourseCreateForm";
-import { genericMethodRequest, getRequest, postFormDataRequest, postRequest } from "../../../util/APIUtils";
+import { genericMethodRequest, getRequest, postFormDataRequest } from "../../../util/APIUtils";
 import InstructorRoute from "../../route/InstructorRoute";
 
 const CreateCourse=()=>{

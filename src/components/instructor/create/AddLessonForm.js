@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from "react";
-import { Button, Form, Input, Space, Upload ,Progress} from "antd";
-import TextArea from "antd/es/input/TextArea";
-import { PlusOutlined, SyncOutlined, UploadOutlined } from "@ant-design/icons";
+import { PlusOutlined, UploadOutlined } from "@ant-design/icons";
+import { Button, Form, Input, Progress, Space, Upload } from "antd";
+import React from "react";
 
 const AddLessonForm = ({
   values,

@@ -1,11 +1,10 @@
-import { CheckOutlined, EditOutlined, PlusOutlined, UploadOutlined } from "@ant-design/icons";
-import { Avatar, Button, message, Modal, Space, Tooltip, Form } from "antd";
+import { CheckOutlined, EditOutlined, PlusOutlined } from "@ant-design/icons";
+import { Avatar, Form, message, Modal, Space, Tooltip } from "antd";
 import axios from "axios";
 import React, { Fragment, useEffect, useState } from "react";
 import { useHistory, useLocation } from "react-router-dom";
 import { ACCESS_TOKEN, API_BASE_URL } from "../../../constants";
-import { deleteRequest, getRequest, postFormDataRequest } from "../../../util/APIUtils";
-import { axiosPostFormDataRequest } from "../../../util/AxiosAPIUtils";
+import { deleteRequest, getRequest } from "../../../util/APIUtils";
 import AddLessonForm from "./AddLessonForm";
 import LessonList from "./LessonList";
 
@@ -32,8 +31,6 @@ const CourseView = () => {
 
     const [recordUpdate, setRecordUpdate] = useState(false);
 
-    const [uploading, setUploading] = useState(false);
-    const [uploadButtonText, setUploadButtonText] = useState("Upload Video");
 
     useEffect(() => {
         getRequest("/user/admin/api/course/" + location.state.id).then((res) => {

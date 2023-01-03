@@ -1,8 +1,8 @@
+import { PlusOutlined } from "@ant-design/icons";
+import { Button, message, Popconfirm, Space, Table } from 'antd';
 import React, { useEffect, useState } from "react";
-import { Button, message, Popconfirm, Space, Table, Tag } from 'antd';
 import { useHistory } from "react-router-dom";
 import { deleteRequest, getRequest } from "../../../util/APIUtils";
-import { PlusOutlined, UserAddOutlined } from "@ant-design/icons";
 
 
 
@@ -46,7 +46,7 @@ const CourseList=()=>{
             title: 'Photo',
             dataIndex: 'courseImage',
             key: 'courseImage',
-            render:((_,val)=> <img width={30} maxWidth={30} src={val.courseImage.url} />)
+            render:((_,val)=> <img width={30} maxWidth={30} alt={'./test.png'} src={val.courseImage.url} />)
     
           },
         
@@ -68,7 +68,7 @@ const CourseList=()=>{
     okText="Yes"
     cancelText="No"
   >
-    <a href="#">Delete</a>
+    <Button >Delete</Button>
   </Popconfirm>
              {/* <Button className="primary" id={record.id} onClick={()=>{console.log(record.id)}}>Delete</Button> */}
             </Space>
