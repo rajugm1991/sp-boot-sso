@@ -6,7 +6,6 @@ import {
   LockOutlined,
   PieChartOutlined,
   PoweroffOutlined, SolutionOutlined,
-  TeamOutlined,
   TranslationOutlined,
   UserOutlined
 } from '@ant-design/icons';
@@ -16,11 +15,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import PrivateRoute from '../../common/PrivateRoute';
 import { authActions } from '../../store/auth-slice';
-import InstructorIndex from '../instructor/create';
-import CourseList from '../instructor/create/CourseList';
-import CourseView from '../instructor/create/CourseView';
-import CreateCourse from '../instructor/create/CreateCourse';
-import InstructorRoute from '../route/InstructorRoute';
+import CourseSubscribedList from '../../pages/nonuser/course/CourseSubscribedList';
+import StudentDashBoard from './StudentDashboard';
 const { Header, Content, Footer, Sider } = Layout;
 function getItem(label, key, icon, children) {
   return {
@@ -32,20 +28,14 @@ function getItem(label, key, icon, children) {
 }
 
 const items = [
-    getItem('Home', '/user/instructor/dashboard', <PieChartOutlined />),
-    getItem('Course', '/user/instructor/course', <DesktopOutlined />),
-    getItem('User', 'sub1', <UserOutlined />, [
-      getItem('Profile', '/profile'),
-      getItem('Bill', '4'),
-      getItem('Alex', '5'),
-    ]),
-    getItem('Team', 'sub2', <TeamOutlined />, [getItem('Team 1', '6'), getItem('Team 2', '8')]),
+    getItem('Home', '/user/student/course/dashboard', <PieChartOutlined />),
+    getItem('Course List', '/user/student/course/list', <DesktopOutlined />),
     getItem('Logout', '/logout', <FileOutlined />),
   ];
 
   
 
-  const SideBarMenu=(props)=>{
+  const StudentSideBarMenu=(props)=>{
     const {
       token: { colorBgContainer },
     } = theme.useToken();
@@ -90,7 +80,6 @@ const items = [
         dispatch(authActions.handleLogout());
       };
     return (
-      <InstructorRoute>
         <Layout
           style={{
             minHeight: '100vh',
@@ -104,7 +93,7 @@ const items = [
             color:'white'
           }}
         >
-          <h5 onClick={()=>{history.push('/')}}>Admin</h5>
+          <h5 onClick={()=>{history.push('/')}}>{user.currentUser.name}</h5>
           </div>
             <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" items={items} onClick={onClick}/>
           </Sider>
@@ -139,12 +128,8 @@ const items = [
                   background: colorBgContainer,
                 }}
               >
-                <PrivateRoute exact path="/user/instructor/course/edit" authenticated={user.authenticated} component={CreateCourse}/>
-                 <PrivateRoute exact path="/user/instructor/course/view" authenticated={user.authenticated} component={CourseView}/>
-                <PrivateRoute exact path="/user/instructor/course/create" authenticated={user.authenticated} component={CreateCourse}/>
-                <PrivateRoute exact path="/user/instructor/course" authenticated={user.authenticated} component={CourseList}/>
-                <PrivateRoute path="/user/instructor/dashboard" authenticated={user.authenticated} component={InstructorIndex}/>
-
+                <PrivateRoute exact path="/user/student/course/dashboard" authenticated={user.authenticated} component={StudentDashBoard}/>
+                <PrivateRoute exact path="/user/student/course/list" authenticated={user.authenticated} component={CourseSubscribedList}/>
               </div>
             </Content>
             <Footer
@@ -156,9 +141,9 @@ const items = [
             </Footer>
           </Layout>
         </Layout>
-        </InstructorRoute>
+       
       );
     };
 
-    export default SideBarMenu;
+    export default StudentSideBarMenu;
   

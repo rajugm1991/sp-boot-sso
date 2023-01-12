@@ -32,7 +32,14 @@ const AppHeader = (props) => {
                                 </Item>
                                 <Item key='/dashboard'>
                                     <NavLink to='/user/dashboard'>
-                                        Dashboard
+                                        Admin Dashboard
+                                    </NavLink>
+
+                                </Item>
+
+                                <Item key='/student'>
+                                    <NavLink to='/user/student/course/dashboard'>
+                                        Student Dashboard
                                     </NavLink>
 
                                 </Item>

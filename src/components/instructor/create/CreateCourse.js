@@ -10,7 +10,7 @@ const CreateCourse=()=>{
    
     const [values, setValues] = useState({
         name: "",
-        category:"",
+        category:"", 
         desc: "",
         price: "9",
         uploading: false,

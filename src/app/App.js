@@ -29,6 +29,11 @@ import './App.css';
 //todo
 import "bootstrap/dist/css/bootstrap.min.css";
 import SideBarMenu from '../components/nav/SideBarManu';
+import SingleCourse from "../pages/nonuser/course/SingleCourseView";
+import StripeCancel from "../pages/stripe/Cancel";
+import StripeSuccess from "../pages/stripe/Success";
+import StudentSideBarMenu from "../components/nonuser/StudentSideBarMenu";
+import UserCourseView from "../pages/nonuser/course/UserCourseViewPage";
 
 
 
@@ -60,11 +65,20 @@ class App extends Component {
             <Route exact path="/" component={Home}></Route>   
             <PrivateRoute path="/profile" authenticated={this.props.authenticated} currentUser={this.props.currentUser}
               component={Profile}></PrivateRoute>
+              <PrivateRoute exact path="/user/courseView" authenticated={this.props.authenticated}  component={SingleCourse}/>
+
+
+              <PrivateRoute exact path="/user/user-course/:id" authenticated={this.props.authenticated}  component={UserCourseView}/>
+
              <PrivateRoute path="/user/dashboard" authenticated={ this.props.authenticated} component={Dashboard} /> 
              <PrivateRoute path="/user/becomeinstructor" authenticated={ this.props.authenticated} component={BecomeInstructor} /> 
              <PrivateRoute path="/stripe/callback" authenticated={this.props.authenticated} component={stripeCallback}/>
+             <PrivateRoute path="/stripe/cancel" authenticated={this.props.authenticated} component={StripeCancel}/>
+             <PrivateRoute exact path="/stripe/success/:id" authenticated={this.props.authenticated} component={StripeSuccess}/>
              {/* <PrivateRoute path="/user/instructor/course/create" authenticated={this.props.authenticated} component={CreateCourse}/> */}
              <PrivateRoute path="/user/instructor" authenticated={this.props.authenticated} component={SideBarMenu} />
+             <PrivateRoute path="/user/student/course" authenticated={this.props.authenticated} component={StudentSideBarMenu} />
+
             <Route path="/login"
               render={(props) => <Login authenticated={this.props.authenticated} onLogin={this.props.loadCurrentlyLoggedInUser} {...props} />}></Route>
             <Route path="/signup"
