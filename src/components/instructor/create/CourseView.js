@@ -1,10 +1,11 @@
-import { CheckOutlined, EditOutlined, PlusOutlined } from "@ant-design/icons";
+import { CheckOutlined, CloseOutlined, EditOutlined, PlusOutlined, QuestionOutlined, UserSwitchOutlined } from "@ant-design/icons";
 import { Avatar, Form, message, Modal, Space, Tooltip } from "antd";
 import axios from "axios";
 import React, { Fragment, useEffect, useState } from "react";
 import { useHistory, useLocation } from "react-router-dom";
 import { ACCESS_TOKEN, API_BASE_URL } from "../../../constants";
-import { deleteRequest, getRequest } from "../../../util/APIUtils";
+import { API_COURSES_STUDENT_COUNT_GET_URL, API_COURSE_LESSON_UPDATE_PUBLISH_STATUS } from "../../../constants/URLConstants";
+import { deleteRequest, genericMethodRequest, getRequest, postRequest } from "../../../util/APIUtils";
 import AddLessonForm from "./AddLessonForm";
 import LessonList from "./LessonList";
 
@@ -19,15 +20,32 @@ const CourseView = () => {
 
     const [videoList, setVideoList] = useState({ FileList: [] })
     const [progress, setProgress] = useState(0);
+    const [students, setStudents] = useState(0);
 
 
     const [visible, setVisible] = useState(false);
     const [values, setValues] = useState({
         title: "",
         content: "",
+        videoFreePreview: false,
         video: "",
         courseId: location.state.id
     });
+
+    useEffect(() => {
+        course && studentCount();
+    }, [course]);
+
+
+    const studentCount = async () => {
+        try {
+            const resData = await getRequest(API_COURSES_STUDENT_COUNT_GET_URL+'/'+location.state.id);
+            console.log("STUDENT COUNT => ", resData.data);
+            setStudents(resData.data);
+        } catch (err) {
+             
+        }
+    };
 
     const [recordUpdate, setRecordUpdate] = useState(false);
 
@@ -44,12 +62,14 @@ const CourseView = () => {
 
     const [form] = Form.useForm();
 
+    const [adminUser, setAdminUser] = useState(true);
 
     const resetState = () => {
         setValues({
             title: "",
             content: "",
             video: "",
+            videoFreePreview: false,
             courseId: location.state.id
         });
 
@@ -62,7 +82,7 @@ const CourseView = () => {
     }
     // FUNCTIONS FOR ADD LESSON
     const handleAddLesson = async () => {
-        console.log(values);
+        console.log('lessons' + values);
         //submit starts here
         let formData = new FormData();
         if (videoList.fileList.length > 0) {
@@ -116,14 +136,24 @@ const CourseView = () => {
     };
 
     const onDeleteLesson = (id) => {
-        console.log("handle  delete lesson "+id);
-        deleteRequest("/user/admin/api/course/courseLesson/"+id).then((res)=>{
+        console.log("handle  delete lesson " + id);
+        deleteRequest("/user/admin/api/course/courseLesson/" + id).then((res) => {
             message.success(res.message)
             setRecordUpdate(!recordUpdate);
-          }).catch((err)=>{
-              message.error(" Error occured while deleting course!!")
-          })
+        }).catch((err) => {
+            message.error(" Error occured while deleting course!!")
+        })
     };
+
+    const updateCourseStatus = (id, status) => {
+        genericMethodRequest(API_COURSE_LESSON_UPDATE_PUBLISH_STATUS, { id: id, status: status }, 'PUT')
+            .then((res) => {
+                message.success(res.message);
+                setRecordUpdate(!recordUpdate);
+            }).catch((err) => {
+                message.error("Error occured while publishing/unpublishing course!!")
+            })
+    }
 
     return (
         <Fragment>
@@ -162,9 +192,25 @@ const CourseView = () => {
                                                     })
                                                 }} className="h5 pointer text-warning mr-4" />
                                             </Tooltip>
-                                            <Tooltip title="Publish">
-                                                <CheckOutlined className="h5 pointer text-danger" />
+                                            <Tooltip title={`${students} Enrolled`}>
+                                                <UserSwitchOutlined className="h5 pointer text-info mr-4" />
                                             </Tooltip>
+
+                                            {course.courseLeasons && course.courseLeasons.length < 3 ? (<Tooltip title="Minimum
+                                            3 lessons required to publish">
+                                                <QuestionOutlined className="h5 pointer text-danger" />
+                                            </Tooltip>)
+                                                :
+                                                course.published ?
+                                                    <Tooltip title="Unpublish">
+                                                        <CloseOutlined className="h5 pointer text-danger" onClick={() => { updateCourseStatus(course.id, 'Unpublish') }} />
+                                                    </Tooltip>
+                                                    :
+                                                    <Tooltip title="Publish">
+                                                        <CheckOutlined className="h5 pointer text-success" onClick={() => { updateCourseStatus(course.id, 'Publish') }} />
+                                                    </Tooltip>
+                                            }
+
                                         </Space>
                                     </div>
                                 </div>
@@ -198,7 +244,7 @@ const CourseView = () => {
                             />
                         </Modal>
                         <div className="row pb-5">
-                            <LessonList course={course} onDeleteLesson={onDeleteLesson}/>
+                            <LessonList course={course} onDeleteLesson={onDeleteLesson} isAdminUser={adminUser} />
                         </div>
                     </div>
 

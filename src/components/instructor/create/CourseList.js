@@ -1,5 +1,5 @@
 import { PlusOutlined } from "@ant-design/icons";
-import { Button, message, Popconfirm, Space, Table } from 'antd';
+import { Button, message, Popconfirm, Space, Table, Tag } from 'antd';
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { deleteRequest, getRequest } from "../../../util/APIUtils";
@@ -40,6 +40,14 @@ const CourseList=()=>{
             key: 'paid',
             render:((val)=> val?'Yes':'No')
     
+          },
+          {
+            title: 'Course Status',
+            key: 'published',
+            dataIndex: 'published',
+            render: (rec) => ( rec?<Tag color={'green'} key={rec}>Published</Tag>:
+            <Tag color={'red'} key={rec}>Unpublished</Tag>
+            ),
           },
 
           {

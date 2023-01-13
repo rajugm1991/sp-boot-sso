@@ -1,5 +1,5 @@
 import { DeleteOutlined } from "@ant-design/icons";
-import { Avatar, List, Modal, Popconfirm } from "antd";
+import { Avatar, List, Modal, Popconfirm, Tag } from "antd";
 import Item from "antd/es/list/Item";
 import React, { useState } from "react";
 import ReactPlayer from "react-player";
@@ -7,7 +7,7 @@ import ReactPlayer from "react-player";
 
 
 const LessonList = ({course,
-  onDeleteLesson}) => {
+  onDeleteLesson,isAdminUser}) => {
     const deleteLesson=(id)=>{
       console.log('--'+id)
       onDeleteLesson(id)
@@ -33,12 +33,23 @@ const LessonList = ({course,
           dataSource={course && course.courseLeasons}
           renderItem={(item, index) => (
             <Item>
+              
               <Item.Meta
                 avatar={<Avatar>{index + 1}</Avatar>}
                 title={item.title}
+                onClick={()=>isAdminUser && onClickHandle(item)}
+              >
+                </Item.Meta>
+               {!isAdminUser && item.courseVideo && item.videoFreePreview && (
+                <span
                 onClick={()=>onClickHandle(item)}
-              ></Item.Meta>
-              <Popconfirm
+                >
+                 <Tag color="green"> Preview </Tag>
+                </span>
+               )}
+
+              
+             {isAdminUser&& <Popconfirm
                 title="Delete the Lesson"
                 description="Are you sure to delete this Lesson?"
                 onConfirm={() => { deleteLesson(item.id)}}
@@ -48,7 +59,7 @@ const LessonList = ({course,
               >     <DeleteOutlined onClick={()=>{}}
                   className="text-danger float-right"
                 />
-              </Popconfirm>
+              </Popconfirm>}
 
             </Item>
           )}

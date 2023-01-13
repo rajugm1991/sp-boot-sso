@@ -1,5 +1,7 @@
-import { createSlice } from "@reduxjs/toolkit"
+import { createSlice } from "@reduxjs/toolkit";
 import { ACCESS_TOKEN } from "../constants";
+
+
 
 
 const INITIALSTATE={
@@ -24,6 +26,7 @@ const authSlice=createSlice({
             state.currentUser={};
             state.authenticated=false;
             state.loading=false;
+
         }
 
     }

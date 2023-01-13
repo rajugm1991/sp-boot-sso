@@ -1,9 +1,8 @@
 import { getCurrentUser } from "../util/APIUtils";
-import {authActions} from "./auth-slice";
+import { authActions } from "./auth-slice";
 
 
 export const fetchCurrentlyLoadedUser=()=>{
-    console.log('raju')
     return async dispatch=>{
         try{
             const userData=await getCurrentUser();

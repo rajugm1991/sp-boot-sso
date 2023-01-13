@@ -1,5 +1,5 @@
 import { PlusOutlined, UploadOutlined } from "@ant-design/icons";
-import { Button, Form, Input, Progress, Space, Upload } from "antd";
+import { Button, Form, Input, Progress, Space, Switch, Upload } from "antd";
 import React from "react";
 
 const AddLessonForm = ({
@@ -75,6 +75,13 @@ const AddLessonForm = ({
         values={values.content}
       >
         <Input.TextArea  />
+      </Form.Item>
+
+      <Form.Item
+        label="Is Video Preview for free"
+        name="videoFreePreview"
+      >
+        <Switch defaultChecked={false}  onChange={(checked)=>setValues({ ...values, videoFreePreview: checked })}/>
       </Form.Item>
 
       <Form.Item label= "Video upload" valuePropName="fileList">
