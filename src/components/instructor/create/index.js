@@ -1,12 +1,12 @@
 import React from "react";
-import InstructorRoute from "../../route/InstructorRoute";
+import AdminRoute from "../../route/AdminRoute";
 
 
 const InstructorIndex = () => {
   return (
-    <InstructorRoute>
+    <AdminRoute>
       <h1 className="jumbotron text-center square">Instructor Dashboard</h1>
-    </InstructorRoute>
+    </AdminRoute>
   );
 };
 

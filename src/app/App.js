@@ -28,7 +28,7 @@ import './App.css';
 
 //todo
 import "bootstrap/dist/css/bootstrap.min.css";
-import SideBarMenu from '../components/nav/SideBarManu';
+import AdminSideBarMenu from '../components/nav/AdminSideBarMenu';
 import SingleCourse from "../pages/nonuser/course/SingleCourseView";
 import StripeCancel from "../pages/stripe/Cancel";
 import StripeSuccess from "../pages/stripe/Success";
@@ -60,7 +60,6 @@ class App extends Component {
 
     return (
      <React.Fragment>
-          {!this.props.authenticated && <AppHeader authenticated={this.props.authenticated} onLogout={this.handleLogout} /> }
           <Switch>
             <Route exact path="/" component={Home}></Route>   
             <PrivateRoute path="/profile" authenticated={this.props.authenticated} currentUser={this.props.currentUser}
@@ -76,7 +75,7 @@ class App extends Component {
              <PrivateRoute path="/stripe/cancel" authenticated={this.props.authenticated} component={StripeCancel}/>
              <PrivateRoute exact path="/stripe/success/:id" authenticated={this.props.authenticated} component={StripeSuccess}/>
              {/* <PrivateRoute path="/user/instructor/course/create" authenticated={this.props.authenticated} component={CreateCourse}/> */}
-             <PrivateRoute path="/user/instructor" authenticated={this.props.authenticated} component={SideBarMenu} />
+             <PrivateRoute path="/user/instructor" authenticated={this.props.authenticated} component={AdminSideBarMenu} />
              <PrivateRoute path="/user/student/course" authenticated={this.props.authenticated} component={StudentSideBarMenu} />
 
             <Route path="/login"

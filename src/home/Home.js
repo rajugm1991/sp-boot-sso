@@ -37,6 +37,7 @@ const Home = () => {
 
     return (
         <Fragment>
+                     {!user.authenticated && <AppHeader authenticated={user.authenticated} onLogout={()=>dispatch(authActions.handleLogout())} /> }
      {user.authenticated && <AppHeader authenticated={user.authenticated} onLogout={()=>{setCourses([]);dispatch(authActions.handleLogout())}} /> }
             <div className="home-container">
                 <div className="container">

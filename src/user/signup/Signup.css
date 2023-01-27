@@ -1,5 +1,7 @@
 .signup-container {
     text-align: center;
+    padding: 150px;
+    background: url("../../public/images/login.svg")
 }
 
 
@@ -9,7 +11,7 @@
     border-radius: 2px;
     width: 500px;
     display: inline-block;
-    margin-top: 30px;
+    margin-top: 0px;
     vertical-align: middle;
     position: relative;    
     padding: 35px;

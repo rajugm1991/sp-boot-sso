@@ -5,6 +5,7 @@ import { fetchCurrentlyLoadedUser } from "../../store/auth-action";
 import { login } from '../../util/APIUtils';
 import Alert from 'react-s-alert';
 import { SyncOutlined } from "@ant-design/icons";
+import { Notification } from "../../common/Notification";
 
 class LoginForm extends Component {
     constructor(props) {
@@ -35,7 +36,7 @@ class LoginForm extends Component {
         login(loginRequest)
         .then(response => {
             localStorage.setItem(ACCESS_TOKEN, response.accessToken);
-            Alert.success("You're successfully logged in!");
+            Notification("You're successfully logged in!");
             this.props.loadCurrentlyLoggedInUser();
             this.setState({formLoading:false});
             this.props.history.push("/");
