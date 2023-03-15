@@ -14,7 +14,8 @@ const UserAdminList = () => {
     {
       title: 'Image',
       dataIndex: 'imageUrl',
-      key: 'imageUrl',
+      key: 'key',
+      fixed: 'left',
       render: (_, record) => record.imageUrl ?
         <Avatar size={"large"} src={<Image src={record.imageUrl} alt={<UserOutlined />} style={{ width: 32 }} />} /> :
         <Avatar
@@ -32,8 +33,9 @@ const UserAdminList = () => {
     {
       title: 'Name',
       dataIndex: 'name',
-      key: 'name',
+      key: 'key',
       filteredValue:[searchValue],
+      fixed: 'left',
       onFilter: (value,record)=>{
         return String(record.name).toLocaleLowerCase().includes(value.toLocaleLowerCase())
       }
@@ -41,7 +43,8 @@ const UserAdminList = () => {
     {
       title: 'Email',
       dataIndex: 'email',
-      key: 'email',
+      key: 'key',
+      fixed: 'left',
       filteredValue:[searchValue],
       onFilter: (value,record)=>{
         return String(record.email).toLocaleLowerCase().includes(value.toLocaleLowerCase())
@@ -49,7 +52,7 @@ const UserAdminList = () => {
     },
     {
       title: 'Roles',
-      key: 'roles',
+      key: 'key',
       dataIndex: 'roles',
       render: (_, { roles }) => (
         <Fragment>
@@ -70,7 +73,7 @@ const UserAdminList = () => {
     {
       title: 'Is Email Verified',
       dataIndex: 'emailVerified',
-      key: 'emailVerified',
+      key: 'key',
       render: (_, record) => (
         record.emailVerified ? 'Yes' : 'No'
       )
@@ -79,49 +82,40 @@ const UserAdminList = () => {
     {
       title: 'Provider',
       dataIndex: 'provider',
-      key: 'provider',
-      filteredValue:[searchValue],
-      onFilter: (value,record)=>{
-        return record.provider&&String(record.provider).toLocaleLowerCase().includes(value.toLocaleLowerCase())
-      }
+      key: 'key'
     },
     {
       title: 'Gender',
       dataIndex: 'gender',
-      key: 'gender',
-      filteredValue:[searchValue],
-      onFilter: (value,record)=>{
-        return String(record.gender).toLocaleLowerCase().includes(value.toLocaleLowerCase())
-      }
-    },
-
-    {
-      title: 'Phone Number',
-      dataIndex: 'phoneNumber',
-      key: 'phoneNumber',
-      filteredValue:[searchValue],
-      onFilter: (value,record)=>{
-        return String(record.phoneNumber).toLocaleLowerCase().includes(value.toLocaleLowerCase())
-      }
+      key: 'key'
     },
 
     {
       title: 'Status',
       dataIndex: 'userStatus',
-      key: 'userStatus',
-      filteredValue:[searchValue],
-      onFilter: (value,record)=>{
-        return String(record.userStatus).toLocaleLowerCase().includes(value.toLocaleLowerCase())
-      }
+      key: 'key'
+    }, {
+      title: 'Created Date',
+      dataIndex: 'createdDt',
+      key: 'key'
+    }, {
+      title: 'Updated Date',
+      dataIndex: 'updatedDt',
+      key: 'key'
     },
     {
       title: 'Action',
       key: 'action',
+      fixed: 'right',
       render: (_, record) => (
-        <Space size="middle">
-          <a>Invite {record.id}</a>
-          <a>Delete</a>
-        </Space>
+        <Space size="small">
+       <Button type="primary" onClick={()=>editUser(record)} ghost>
+      Edit
+    </Button>
+    <Button type="primary" danger ghost>
+      Delete
+    </Button>
+          </Space>
       ),
     },
   ];
@@ -137,7 +131,7 @@ const UserAdminList = () => {
     email: "",
     roles: [],
     phonePrefix:"",
-    phone:"",
+    phoneNumber:"",
     gender:"",
   });
   const [recordUpdate, setRecordUpdate] = useState(false);
@@ -147,6 +141,27 @@ const UserAdminList = () => {
   const resetState = () => {
     resetFormFields();
     setRecordUpdate(!recordUpdate);
+  }
+
+  const editUser=(record)=>{
+    fetchRoles();
+    console.log('User  '+JSON.stringify(record));
+    const updUser={
+      id: record.id,
+      name: record.name,
+    email: record.email,
+    roles: record.roles.map((role)=>role.id),
+    phonePrefix:"",
+    phoneNumber:record.phoneNumber,
+    gender:record.gender,
+  };
+    form.setFieldsValue({
+      ...updUser
+    })
+    setValues(updUser);
+    setVisible(true);
+    setEditForm(true);
+
   }
 
   const resetFormFields = () => {
@@ -163,6 +178,7 @@ const UserAdminList = () => {
 
     console.log(values)
     if(editForm){
+      console.log("Inside user update "+values)
       genericMethodRequest(API_ADMIN_USER_LIST,values,'PUT').then((res)=>{
         message.success(res.message);
         setValues({ ...values, loading: false })
@@ -221,7 +237,7 @@ const UserAdminList = () => {
 
     })
 
-  }, [])
+  }, [recordUpdate])
 
 
   return (
@@ -243,7 +259,10 @@ const UserAdminList = () => {
         setSearchValue(value)
        }}
        onChange={(e)=>setSearchValue(e.target.value)}/>
-      <Table columns={columns} dataSource={userData} />
+      <Table scroll={{
+      x: 1500,
+      y: 200,
+    }} columns={columns} dataSource={userData} />
 
       <Modal
         title="+ Add User"

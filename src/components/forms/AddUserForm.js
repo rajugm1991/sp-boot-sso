@@ -66,7 +66,7 @@ const AddUserForm = ({ values,
                 onChange={(e) => setValues({ ...values, name: e.target.value })}
                 values={values.name}
             >
-                <Input value={values.name} disabled={editForm} />
+                <Input value={values.name}  />
             </Form.Item>
 
             <Form.Item
@@ -89,9 +89,9 @@ const AddUserForm = ({ values,
             </Form.Item>
 
             <Form.Item
-        name="phone"
+        name="phoneNumber"
         label="Phone Number"
-        onChange={(e) => setValues({ ...values, phone: e.target.value })}
+        onChange={(e) => setValues({ ...values, phoneNumber: e.target.value })}
       >
         <Input
           addonBefore={prefixSelector}
