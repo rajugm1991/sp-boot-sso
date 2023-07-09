@@ -35,3 +35,6 @@ export const API_ADMIN_ROLE_ADD="/user/admin/api/roles";
 //user
 export const API_ADMIN_USER_LIST="/user/admin/api/users";
 
+//course section
+
+export const API_ADMIN_COURSE_ADD_SECTION="/user/admin/api/courseLesson/section";

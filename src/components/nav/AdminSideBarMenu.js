@@ -23,6 +23,7 @@ import CreateCourse from '../instructor/create/CreateCourse';
 import AdminRoute from '../route/AdminRoute';
 import UserRole from '../admin/UserRole';
 import UserAdminList from '../admin/UsersAdminList';
+import CourseLessonForm from '../course_lesson/CourseLessonAdd';
 const { Header, Content, Footer, Sider } = Layout;
 function getItem(label, key, icon, children) {
   return {
@@ -144,10 +145,12 @@ const items = [
                 <PrivateRoute exact path="/user/instructor/course/edit" authenticated={user.authenticated} component={CreateCourse}/>
                  <PrivateRoute exact path="/user/instructor/course/view" authenticated={user.authenticated} component={CourseView}/>
                 <PrivateRoute exact path="/user/instructor/course/create" authenticated={user.authenticated} component={CreateCourse}/>
+                <PrivateRoute exact path="/user/instructor/lesson/:id" authenticated={user.authenticated}  component={CourseLessonForm}/>
                 <PrivateRoute exact path="/user/instructor/course" authenticated={user.authenticated} component={CourseList}/>
                 <PrivateRoute path="/user/instructor/dashboard" authenticated={user.authenticated} component={InstructorIndex}/>
                 <PrivateRoute exact path="/user/instructor/roles" authenticated={user.authenticated} component={UserRole} />
                 <PrivateRoute exact path="/user/instructor/users" authenticated={user.authenticated} component={UserAdminList} />
+
 
               </div>
             </Content>

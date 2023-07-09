@@ -6,7 +6,6 @@ import { useHistory, useLocation } from "react-router-dom";
 import { ACCESS_TOKEN, API_BASE_URL } from "../../../constants";
 import { API_COURSES_STUDENT_COUNT_GET_URL, API_COURSE_LESSON_UPDATE_PUBLISH_STATUS } from "../../../constants/URLConstants";
 import { deleteRequest, genericMethodRequest, getRequest, postRequest } from "../../../util/APIUtils";
-import AddLessonForm from "./AddLessonForm";
 import LessonList from "./LessonList";
 
 
@@ -29,6 +28,7 @@ const CourseView = () => {
         content: "",
         videoFreePreview: false,
         video: "",
+        sectionId:"",
         courseId: location.state.id
     });
 
@@ -67,6 +67,7 @@ const CourseView = () => {
     const resetState = () => {
         setValues({
             title: "",
+            sectionId:"",
             content: "",
             video: "",
             videoFreePreview: false,
@@ -155,6 +156,9 @@ const CourseView = () => {
             })
     }
 
+    const handleAdd=()=>{
+        history.push("/user/instructor/lesson/"+location.state.id)
+    }
     return (
         <Fragment>
             <div className="contianer-fluid pt-3">
@@ -182,7 +186,7 @@ const CourseView = () => {
                                     <div className="d-flex pt-4">
                                         <Space>
                                             <Tooltip title="Add lesson">
-                                                <PlusOutlined onClick={() => setVisible(true)} className="h3 pointer text-success mr-4" />
+                                                <PlusOutlined onClick={() => handleAdd()} className="h3 pointer text-success mr-4" />
                                             </Tooltip>
                                             <Tooltip title="Edit Course">
                                                 <EditOutlined onClick={() => {
@@ -225,24 +229,7 @@ const CourseView = () => {
 
                         <br />
 
-                        <Modal
-                            title="+ Add Lesson"
-                            centered
-                            visible={visible}
-                            onCancel={() => setVisible(false)}
-                            footer={null}
-                        >
-                            <AddLessonForm
-                                values={values}
-                                setValues={setValues}
-                                handleAddLesson={handleAddLesson}
-                                handleCancel={() => setVisible(false)}
-                                setVideoList={setVideoList}
-                                form={form}
-                                videoList={videoList}
-                                progress={progress}
-                            />
-                        </Modal>
+                        
                         <div className="row pb-5">
                             <LessonList course={course} onDeleteLesson={onDeleteLesson} isAdminUser={adminUser} />
                         </div>
