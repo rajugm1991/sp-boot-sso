@@ -41,7 +41,8 @@ const Home = () => {
      {user.authenticated && <AppHeader authenticated={user.authenticated} onLogout={()=>{setCourses([]);dispatch(authActions.handleLogout())}} /> }
             <div className="home-container">
                 <div className="container">
-                    <h1 className='jumbotron text-center big-primary'>Online Education Market Place.</h1>
+                    <h1 className='font-extralight text-xs text-red-700'>FS</h1>
+                    <h1 className='text-blue-600'>Online Education Market Place.</h1>
 
                     {/* <div className="graf-bg-container">
                         <div className="graf-layout">
