@@ -8,7 +8,6 @@ import {
 import Alert from 'react-s-alert';
 import 'react-s-alert/dist/s-alert-css-effects/slide.css';
 import 'react-s-alert/dist/s-alert-default.css';
-import AppHeader from '../common/AppHeader';
 import LoadingIndicator from '../common/LoadingIndicator';
 import NotFound from '../common/NotFound';
 import PrivateRoute from '../common/PrivateRoute';
@@ -27,13 +26,13 @@ import Signup from '../user/signup/Signup';
 import './App.css';
 
 //todo
-import "bootstrap/dist/css/bootstrap.min.css";
 import AdminSideBarMenu from '../components/nav/AdminSideBarMenu';
 import SingleCourse from "../pages/nonuser/course/SingleCourseView";
 import StripeCancel from "../pages/stripe/Cancel";
 import StripeSuccess from "../pages/stripe/Success";
 import StudentSideBarMenu from "../components/nonuser/StudentSideBarMenu";
 import UserCourseView from "../pages/nonuser/course/UserCourseViewPage";
+import CourseView from "../components/public/CourseView";
 
 
 
@@ -62,6 +61,7 @@ class App extends Component {
      <React.Fragment>
           <Switch>
             <Route exact path="/" component={Home}></Route>   
+            <Route exact path="/learn" component={CourseView}></Route>   
             <PrivateRoute path="/profile" authenticated={this.props.authenticated} currentUser={this.props.currentUser}
               component={Profile}></PrivateRoute>
               <PrivateRoute exact path="/user/courseView" authenticated={this.props.authenticated}  component={SingleCourse}/>

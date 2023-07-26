@@ -8,17 +8,46 @@ import './AppHeader.css';
 
 const { Item, SubMenu } = Menu;
 
+const Search=()=>{
+
+    return(
+      
+        <div className="">
+          <input
+            className="m-1 p-2 w-80 h-10 border border-gray-100 rounded-r-lg bg-gray-100"
+            placeholder="🔍 Search"
+           ></input>
+         <button className='bg-slate-100 m-2 p-2 rounded-lg'>Search</button>
+        </div>
+      
+    )
+}
+
+
+const Logo = () => {
+    return (
+      <div className="">
+       <Link to={'/'}> <img
+          alt="linkedin"
+          className="h-14 "
+          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQGIkr1yzfRvazNCCECkX7i7P3SL2K7cyi_2g&usqp=CAU"
+        ></img></Link>
+      </div>
+    );
+  };
+
 const AppHeader = (props) => {
 
     const user = useSelector(state => state.auth)
 
     return (
 
-        <header className="app-header" >
-            <div className="container">
+        <header className="bg-white border-t flex w-full justify-center p-1 shadow-md sticky top-0" >
                 <div className="app-branding">
-                    <Link to="/" className="app-title">Spring Social</Link>
+                    <Link to="/" className="app-title"><Logo/></Link>
                 </div>
+                <Search/>
+               
                 <div className="app-options">
 
                     {props.authenticated ? (
@@ -75,7 +104,7 @@ const AppHeader = (props) => {
                         </nav>)}
 
                 </div>
-            </div>
+           
         </header>
     )
 
