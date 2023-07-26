@@ -7,6 +7,8 @@ import { API_COURSE_LIST_URL } from '../constants/URLConstants';
 import { authActions } from '../store/auth-slice';
 import { getRequest } from '../util/APIUtils';
 import './Home.css';
+import Dashboard from '../components/public/Dashboard';
+import CourseList from '../components/public/CourseList';
 
 const Home = () => {
     const [courses, setCourses] = useState([]);
@@ -15,7 +17,7 @@ const Home = () => {
 
     const history=useHistory();
 
-    const dispatch=useDispatch();
+    const dispatch=useDispatch();   
 
     useEffect(() => {
         getRequest(API_COURSE_LIST_URL).then((res) => {
@@ -39,26 +41,9 @@ const Home = () => {
         <Fragment>
                      {!user.authenticated && <AppHeader authenticated={user.authenticated} onLogout={()=>dispatch(authActions.handleLogout())} /> }
      {user.authenticated && <AppHeader authenticated={user.authenticated} onLogout={()=>{setCourses([]);dispatch(authActions.handleLogout())}} /> }
-            <div className="home-container">
-                <div className="container">
-                    <h1 className='jumbotron text-center big-primary'>Online Education Market Place.</h1>
+            <Dashboard/>
+           <CourseList/>
 
-                    {/* <div className="graf-bg-container">
-                        <div className="graf-layout">
-                            <div className="graf-circle"></div>
-                            <div className="graf-circle"></div>
-                            <div className="graf-circle"></div>
-                            <div className="graf-circle"></div>
-                            <div className="graf-circle"></div>
-                            <div className="graf-circle"></div>
-                            <div className="graf-circle"></div>
-                            <div className="graf-circle"></div>
-                            <div className="graf-circle"></div>
-                            <div className="graf-circle"></div>
-                            <div className="graf-circle"></div>
-                        </div>
-                    </div>
-                    <h1 className="home-title">Spring Boot React OAuth2 Social Login Demo</h1> */}
                     <div className="row pt-4">
                         {courses.map((course) => (
                             <div key={course.id} className="col-md-4">
@@ -68,8 +53,7 @@ const Home = () => {
                         ))}
                     </div>
 
-                </div>
-            </div>
+           
         </Fragment>
     )
 }
