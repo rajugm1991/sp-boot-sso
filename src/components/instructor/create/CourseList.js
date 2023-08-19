@@ -126,6 +126,7 @@ const CourseList=()=>{
         <Button
           onClick={handleAdd}
           type="primary"
+          className="bg-purple-300"
           style={{
             marginBottom: 16,
           }}

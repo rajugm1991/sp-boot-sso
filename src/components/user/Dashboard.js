@@ -5,10 +5,7 @@ import AdminSideBarMenu from "../nav/AdminSideBarMenu";
 const Dashboard =(props)=>{
 
     return (
-
             <AdminSideBarMenu/>
-      
-
     )
 }
 

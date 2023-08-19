@@ -14,12 +14,12 @@ const CourseList = () => {
     }
 
     useEffect(()=>{
-      //  getCourseList();
+         getCourseList();
     },[])
 
   return (
-    <div className='m-12  flex flex-wrap'>
-       {courseList.length>0&& courseList.map((courseData)=> <Link to={'/learn'} key={courseData.id}> <CourseCard key={courseData.id} course={courseData} /></Link>)}
+    <div className='m-11 flex flex-wrap overflow-scroll'>
+       {courseList.length>0&& courseList.map((courseData)=> <Link to={'/learn/'+courseData.id} key={courseData.id}> <CourseCard key={courseData.id} course={courseData} /></Link>)}
     </div>
   )
 }

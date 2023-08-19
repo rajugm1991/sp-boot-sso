@@ -9,6 +9,7 @@ import { getRequest } from '../util/APIUtils';
 import './Home.css';
 import Dashboard from '../components/public/Dashboard';
 import CourseList from '../components/public/CourseList';
+import Footer from '../components/public/header/Footer';
 
 const Home = () => {
     const [courses, setCourses] = useState([]);
@@ -19,13 +20,21 @@ const Home = () => {
 
     const dispatch=useDispatch();   
 
+
     useEffect(() => {
+
+        if(user?.currentUser?.adminUser===true){
+            history.push('/user/dashboard');
+        }
+        else if(user?.currentUser?.roles?.map(x=>x.name).includes('ROLE_INSTRUCTOR')){
+            history.push('/user/instructor');
+        }
         getRequest(API_COURSE_LIST_URL).then((res) => {
             setCourses(res.filter(course => course.published));
         }).catch((err) => {
             console.log(err);
         })
-    }, [])
+    }, [user])
 
     const onClickCourse=(id)=>{
         history.push({
@@ -41,6 +50,7 @@ const Home = () => {
         <Fragment>
                      {!user.authenticated && <AppHeader authenticated={user.authenticated} onLogout={()=>dispatch(authActions.handleLogout())} /> }
      {user.authenticated && <AppHeader authenticated={user.authenticated} onLogout={()=>{setCourses([]);dispatch(authActions.handleLogout())}} /> }
+            <div className='pt-[4rem]'>
             <Dashboard/>
            <CourseList/>
 
@@ -52,6 +62,8 @@ const Home = () => {
                             </div>
                         ))}
                     </div>
+            </div>
+            <Footer/>
 
            
         </Fragment>

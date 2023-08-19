@@ -133,6 +133,7 @@ const UserAdminList = () => {
     phonePrefix:"",
     phoneNumber:"",
     gender:"",
+    instructorDetails:"",
   });
   const [recordUpdate, setRecordUpdate] = useState(false);
 
@@ -145,7 +146,6 @@ const UserAdminList = () => {
 
   const editUser=(record)=>{
     fetchRoles();
-    console.log('User  '+JSON.stringify(record));
     const updUser={
       id: record.id,
       name: record.name,
@@ -154,6 +154,7 @@ const UserAdminList = () => {
     phonePrefix:"",
     phoneNumber:record.phoneNumber,
     gender:record.gender,
+    instructorDetails:record.instructorDetails
   };
     form.setFieldsValue({
       ...updUser
@@ -249,6 +250,7 @@ const UserAdminList = () => {
         style={{
           marginBottom: 16,
         }}
+        className="bg-purple-500"
         icon={<PlusOutlined />}
       >
         Add a User

@@ -4,9 +4,9 @@ import AdminRoute from "../../route/AdminRoute";
 
 const InstructorIndex = () => {
   return (
-    <AdminRoute>
+    // <AdminRoute>
       <h1 className="jumbotron text-center square">Instructor Dashboard</h1>
-    </AdminRoute>
+    // </AdminRoute>
   );
 };
 

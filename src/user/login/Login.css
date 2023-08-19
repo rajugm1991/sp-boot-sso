@@ -1,7 +1,8 @@
 .login-container {
     text-align: center;
-    padding: 150px;
-    background: url("../../public/images/login.svg")
+    padding: 50px;
+    /* background: url("../../public/images/login.svg");
+    height: auto; */
 }
 
 

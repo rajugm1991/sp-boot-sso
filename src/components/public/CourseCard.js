@@ -7,10 +7,10 @@ const CourseCard = ({course}) => {
     const {url}=courseImage;
 
   return (
-    <div className="m-4 h-80 w-64 rounded-lg shadow-lg hover:-translate-y-1 motion-reduce:transition-none motion-reduce:hover:transform-none hover:cursor-pointer">
+    <div className="m-4 h-80 w-64 rounded-lg shadow-lg  hover:cursor-pointer">
      <div className="rounded-full px-2 ">
       <img
-        className="h-40 border-black"
+        className="h-40 border-black "
         alt="videoCard"
         src={url}
       />

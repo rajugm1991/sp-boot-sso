@@ -171,6 +171,7 @@ const AddLessonForm = ({
         <Button
         htmlType="submit"
           type="primary"
+          className="bg-purple-300"
           icon={<PlusOutlined />}
           loading={values.loading}
         >
@@ -185,14 +186,17 @@ const AddLessonForm = ({
           Cancel
         </Button>
 
-        <Button   onClick={() => setVisible(true)}>
+        <Button   onClick={() => setVisible(true)} className="bg-red-300">
        Add Section
           </Button> 
 
         </Space>
       </Form.Item>
       <br/>
-      {progress>0 && <Progress className="d-flex justify-content-center pt-2" percent={progress} steps={10}/> }
+      {progress>0 && 
+      //<Progress className="d-flex justify-content-center pt-2" percent={progress} steps={10}/> 
+      <span>${progress}</span>
+      }
     </Form>
 
 

@@ -1,5 +1,6 @@
 import { PlusOutlined } from "@ant-design/icons";
 import { Button, Form, Input, Select, Space } from "antd";
+import TextArea from "antd/es/input/TextArea";
 import { Option } from "antd/es/mentions";
 import React from "react";
 
@@ -45,7 +46,7 @@ const AddUserForm = ({ values,
                 span: 8,
             }}
             wrapperCol={{
-                span: 16,
+                span: 40,
             }}
             initialValues={{
                 remember: true,
@@ -137,6 +138,22 @@ const AddUserForm = ({ values,
                 ))}
       </Select>
     </Form.Item>
+   {rolesData.filter(x=>values.roles?.includes(x.id)).map(x=>x.name).includes('ROLE_INSTRUCTOR')&& <Form.Item
+                label="Instructor Details"
+                name="instructorDetails"
+                rules={[
+                    {
+                        required: true,
+                        message: 'Please enter instructor details!',
+                    },
+                ]}
+                onChange={(e) => setValues({ ...values, instructorDetails: e.target.value })}
+                values={values.instructorDetails}
+            >
+                <TextArea rows={4} value={values.instructorDetails}  />
+                
+            </Form.Item>
+    }
 
 
             <Form.Item
@@ -152,6 +169,7 @@ const AddUserForm = ({ values,
                         type="primary"
                         icon={<PlusOutlined />}
                         loading={values.loading}
+                        className="bg-purple-400"
                     >
                         {values.loading ? 'Saving..' : 'Submit'}
 

@@ -69,6 +69,7 @@ const AddSectionForm = ({
         <Button
         htmlType="submit"
           type="primary"
+          className="bg-pink-400"
           icon={<PlusOutlined />}
           loading={secvalues.loading}
         >

@@ -33,6 +33,7 @@ import StripeSuccess from "../pages/stripe/Success";
 import StudentSideBarMenu from "../components/nonuser/StudentSideBarMenu";
 import UserCourseView from "../pages/nonuser/course/UserCourseViewPage";
 import CourseView from "../components/public/CourseView";
+import InstructorLayout from "../components/nav/InstructorLayout";
 
 
 
@@ -61,7 +62,7 @@ class App extends Component {
      <React.Fragment>
           <Switch>
             <Route exact path="/" component={Home}></Route>   
-            <Route exact path="/learn" component={CourseView}></Route>   
+            <Route  path="/learn/:id" component={CourseView}></Route>   
             <PrivateRoute path="/profile" authenticated={this.props.authenticated} currentUser={this.props.currentUser}
               component={Profile}></PrivateRoute>
               <PrivateRoute exact path="/user/courseView" authenticated={this.props.authenticated}  component={SingleCourse}/>
@@ -75,7 +76,10 @@ class App extends Component {
              <PrivateRoute path="/stripe/cancel" authenticated={this.props.authenticated} component={StripeCancel}/>
              <PrivateRoute exact path="/stripe/success/:id" authenticated={this.props.authenticated} component={StripeSuccess}/>
              {/* <PrivateRoute path="/user/instructor/course/create" authenticated={this.props.authenticated} component={CreateCourse}/> */}
-             <PrivateRoute path="/user/instructor" authenticated={this.props.authenticated} component={AdminSideBarMenu} />
+             {this.props.currentUser?.roles?.map(x=>x.name).includes('ROLE_ADMIN')&& <PrivateRoute path="/user/instructor" authenticated={this.props.authenticated} component={AdminSideBarMenu} />}
+
+            {this.props.currentUser?.roles?.map(x=>x.name).includes('ROLE_INSTRUCTOR')&&<PrivateRoute path="/user/instructor" authenticated={this.props.authenticated} component={InstructorLayout} />}
+
              <PrivateRoute path="/user/student/course" authenticated={this.props.authenticated} component={StudentSideBarMenu} />
 
             <Route path="/login"
