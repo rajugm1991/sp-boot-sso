@@ -1,14 +1,11 @@
 import React from "react";
-import SideBarMenu from "../nav/SideBarManu";
+import AdminSideBarMenu from "../nav/AdminSideBarMenu";
 
 
 const Dashboard =(props)=>{
 
     return (
-
-            <SideBarMenu/>
-      
-
+            <AdminSideBarMenu/>
     )
 }
 

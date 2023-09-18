@@ -8,7 +8,6 @@ const CourseCard = ({ course ,onClickCourse}) => {
   // destructure
   const { name, price, courseImage, paid, category } = course;
   return (
-    <Link href="#" >
       <a>
         <Card
           className="mb-4"
@@ -41,7 +40,6 @@ const CourseCard = ({ course ,onClickCourse}) => {
           </h4>
         </Card>
       </a>
-    </Link>
   );
 };
 

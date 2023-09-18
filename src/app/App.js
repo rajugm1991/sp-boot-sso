@@ -8,7 +8,6 @@ import {
 import Alert from 'react-s-alert';
 import 'react-s-alert/dist/s-alert-css-effects/slide.css';
 import 'react-s-alert/dist/s-alert-default.css';
-import AppHeader from '../common/AppHeader';
 import LoadingIndicator from '../common/LoadingIndicator';
 import NotFound from '../common/NotFound';
 import PrivateRoute from '../common/PrivateRoute';
@@ -27,13 +26,16 @@ import Signup from '../user/signup/Signup';
 import './App.css';
 
 //todo
-import "bootstrap/dist/css/bootstrap.min.css";
-import SideBarMenu from '../components/nav/SideBarManu';
+import AdminSideBarMenu from '../components/nav/AdminSideBarMenu';
 import SingleCourse from "../pages/nonuser/course/SingleCourseView";
 import StripeCancel from "../pages/stripe/Cancel";
 import StripeSuccess from "../pages/stripe/Success";
 import StudentSideBarMenu from "../components/nonuser/StudentSideBarMenu";
 import UserCourseView from "../pages/nonuser/course/UserCourseViewPage";
+import CourseView from "../components/public/CourseView";
+import InstructorLayout from "../components/nav/InstructorLayout";
+import CourseRenderBody from "../components/course_video_render/CourseRenderBody";
+import CourseRenderMainBody from "../components/course_video_render/CourseRenderMainBody";
 
 
 
@@ -60,9 +62,11 @@ class App extends Component {
 
     return (
      <React.Fragment>
-          {!this.props.authenticated && <AppHeader authenticated={this.props.authenticated} onLogout={this.handleLogout} /> }
           <Switch>
             <Route exact path="/" component={Home}></Route>   
+            <Route  path="/learn/:id" component={CourseView}></Route> 
+            <Route  path="/learns/course/:id/lesson/:lessonId" component={CourseRenderMainBody}></Route> 
+            <Route  path="/learnCourse/:id" component={CourseRenderBody}></Route> 
             <PrivateRoute path="/profile" authenticated={this.props.authenticated} currentUser={this.props.currentUser}
               component={Profile}></PrivateRoute>
               <PrivateRoute exact path="/user/courseView" authenticated={this.props.authenticated}  component={SingleCourse}/>
@@ -76,7 +80,10 @@ class App extends Component {
              <PrivateRoute path="/stripe/cancel" authenticated={this.props.authenticated} component={StripeCancel}/>
              <PrivateRoute exact path="/stripe/success/:id" authenticated={this.props.authenticated} component={StripeSuccess}/>
              {/* <PrivateRoute path="/user/instructor/course/create" authenticated={this.props.authenticated} component={CreateCourse}/> */}
-             <PrivateRoute path="/user/instructor" authenticated={this.props.authenticated} component={SideBarMenu} />
+             {this.props.currentUser?.roles?.map(x=>x.name).includes('ROLE_ADMIN')&& <PrivateRoute path="/user/instructor" authenticated={this.props.authenticated} component={AdminSideBarMenu} />}
+
+            {this.props.currentUser?.roles?.map(x=>x.name).includes('ROLE_INSTRUCTOR')&&<PrivateRoute path="/user/instructor" authenticated={this.props.authenticated} component={InstructorLayout} />}
+
              <PrivateRoute path="/user/student/course" authenticated={this.props.authenticated} component={StudentSideBarMenu} />
 
             <Route path="/login"

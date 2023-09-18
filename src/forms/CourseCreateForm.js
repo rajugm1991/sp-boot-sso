@@ -54,11 +54,13 @@ const CourseCreateForm = ({ handleSubmit,
       const [image, setImage]=useState({
         previewVisible: false,
         previewImage: "",
-        fileList: []
+
       })
 
+      const[fileList,setFileList]=useState([]);
 
-      const { previewVisible, previewImage, fileList } = image;
+
+      const { previewVisible, previewImage } = image;
 
   
 
@@ -72,17 +74,18 @@ const CourseCreateForm = ({ handleSubmit,
     
     
       const handleUpload = ({ fileList }) => {
+        const uploadList=fileList;
         //---------------^^^^^----------------
         // this is equivalent to your "const img = event.target.files[0]"
         // here, antd is giving you an array of files, just like event.target.files
         // but the structure is a bit different that the original file
         // the original file is located at the `originFileObj` key of each of this files
         // so `event.target.files[0]` is actually fileList[0].originFileObj
-        console.log('fileList', fileList);
+        console.log('fileList', uploadList);
         // you store them in state, so that you can make a http req with them later
-        setImage(...image,{fileList:fileList})
+        setFileList(uploadList)
        // setValues(...values,{fileList:fileList})
-       setImageField({fileList:fileList});
+       setImageField({fileList:uploadList});
       }
    
 
@@ -192,13 +195,13 @@ const CourseCreateForm = ({ handleSubmit,
         <Space>
 
           <Button
-           loading={values.loading} size="middle" type="primary" htmlType='submit' icon={<SaveOutlined />}>       
+           loading={values.loading} className='bg-purple-300' size="middle" type="primary" htmlType='submit' icon={<SaveOutlined />}>       
              {!edit ?values.loading ? "Saving..." : "Save" :(values.loading ? "Updating..." : "Update" )}
           </Button>
           <Button htmlType="button" disabled={edit} onClick={onReset} icon={<RestOutlined />} size="middle">
           Reset
         </Button>
-        <Button htmlType="button" onClick={onCancel} icon={<CloseOutlined />} size="middle">
+        <Button htmlType="button" className='' onClick={onCancel} icon={<CloseOutlined />} size="middle">
           Cancel
         </Button>
         </Space>

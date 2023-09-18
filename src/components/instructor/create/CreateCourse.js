@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import { useHistory, useLocation } from "react-router-dom";
 import CourseCreateForm from "../../../forms/CourseCreateForm";
 import { genericMethodRequest, getRequest, postFormDataRequest } from "../../../util/APIUtils";
-import InstructorRoute from "../../route/InstructorRoute";
 
 const CreateCourse=()=>{
 
@@ -98,7 +97,6 @@ const CreateCourse=()=>{
 
     return(
         <React.Fragment>
-        <InstructorRoute>
             <h6>Create Course</h6>
         <CourseCreateForm 
         handleSubmit={handleSubmit}
@@ -108,7 +106,6 @@ const CreateCourse=()=>{
         setImageField={setImageField}
         location={location}
         />
-        </InstructorRoute>
         </React.Fragment>
     )
 }

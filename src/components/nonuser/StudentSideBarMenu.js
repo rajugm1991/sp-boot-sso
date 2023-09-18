@@ -17,6 +17,8 @@ import PrivateRoute from '../../common/PrivateRoute';
 import { authActions } from '../../store/auth-slice';
 import CourseSubscribedList from '../../pages/nonuser/course/CourseSubscribedList';
 import StudentDashBoard from './StudentDashboard';
+import AntSideBar from '../nav/AntSideBar';
+import AntHeader from '../nav/AntHeader';
 const { Header, Content, Footer, Sider } = Layout;
 function getItem(label, key, icon, children) {
   return {
@@ -44,69 +46,18 @@ const items = [
 
     const [collapsed, setCollapsed] = useState(false);
 
-    let history=useHistory();
 
-    const dispatch=useDispatch();
 
-    const widgetMenu = (
-      <Menu mode="horizontal" theme="light" className="flex-setting" style={{display:'block'}}>
-      <SubMenu icon={<UserOutlined />} title={user.currentUser.name} key={user.currentUser.id} style={{float:'right'}} >
-          <Menu.Item>
-  <SolutionOutlined className="icon" style={{minWidth:'25px'}} />
-  Profile
-  </Menu.Item>
-  <Menu.Item>
-  <LockOutlined className="icon" style={{minWidth:'25px'}} />
-              <a href={() => false}  onClick={()=>dispatch(authActions.handleLogout())}>Signout</a>
-  </Menu.Item>
-  <Menu.Item>
-  <TranslationOutlined className="icon" style={{minWidth:'25px'}}/>
-  change language
-  </Menu.Item>
-  <Menu.Item>
-  <PoweroffOutlined className="icon"  style={{minWidth:'25px'}}/>
-  sign out
-  </Menu.Item>
-      </SubMenu>
-    </Menu>
-    );
 
-    const onClick= (e) => {
-        console.log('click ', e);
-        if(e.key!=='/logout'){
-        history.push(e.key);
-        }
-        if(e.key==='/logout')
-        dispatch(authActions.handleLogout());
-      };
     return (
         <Layout
           style={{
             minHeight: '100vh',
           }}
         >
-          <Sider     collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>
-          <div
-          style={{
-            height: 32,
-            margin: 16,
-            color:'white'
-          }}
-        >
-          <h5 onClick={()=>{history.push('/')}}>{user.currentUser.name}</h5>
-          </div>
-            <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" items={items} onClick={onClick}/>
-          </Sider>
+           <AntSideBar collapsed={collapsed} setCollapsed={setCollapsed} items={items}/>
           <Layout className="site-layout">
-          <Header
-          style={{
-            padding: 0,
-            background: colorBgContainer,
-          }}
-        >
- <div className="logo" />
-         {widgetMenu}
-          </Header>
+          <AntHeader/>
             <Content
               style={{
                 margin: '0 16px'

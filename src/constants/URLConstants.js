@@ -28,5 +28,13 @@ export const API_USER_COURSE_COMPLETE_LESSON="/user/api/user-course/completeLess
 
 export const STRIPE_PUBLIC_KEY='pk_test_51M9S3FSI7usayTdV65hQS22Bh9UObT58OrrAFbxQXE8manHeiCshhQKb1YHDDwggkgkh4Lnk6jESWVmH2R1FjV3G00a0OLnNpO';
 
+//role
+export const API_ADMIN_ROLE_LIST="/user/admin/api/roles";
+export const API_ADMIN_ROLE_ADD="/user/admin/api/roles";
 
+//user
+export const API_ADMIN_USER_LIST="/user/admin/api/users";
 
+//course section
+
+export const API_ADMIN_COURSE_ADD_SECTION="/user/admin/api/courseLesson/section";

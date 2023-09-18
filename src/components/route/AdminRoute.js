@@ -4,7 +4,7 @@ import { useHistory } from "react-router-dom";
 import { getRequest } from "../../util/APIUtils";
 
 
-const InstructorRoute = ({children})=>{
+const AdminRoute = ({children})=>{
 
     const history=useHistory();
 
@@ -18,7 +18,7 @@ const InstructorRoute = ({children})=>{
     const fetchInstructor=async ()=>{
 
         try{
-            await getRequest('/user/api/stripe/get-active-account');
+            await getRequest('/user/admin/me');
             setOk(true);
         }catch(err){
             setOk(false);
@@ -49,4 +49,4 @@ const InstructorRoute = ({children})=>{
 
 }
 
-export default InstructorRoute; 
+export default AdminRoute; 
