@@ -7,6 +7,7 @@ const CourseList = () => {
 
     const [courseList,setCourseList]=useState([]);
     
+    //sds
 
     const getCourseList=async()=>{
         const data=await fetch(PUBLIC_GET_COURSE);
