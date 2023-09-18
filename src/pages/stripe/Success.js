@@ -16,7 +16,7 @@ const StripeSuccess=()=>{
     useEffect(()=>{
         postRequest(API_COURSE_PAID_STRIPE_CALL_BACK,{courseId:id}).then(()=>{
             history.push({
-                pathname:'/user/courseView',
+                pathname:'/learn/'+id,
                 state:{
                     id:id,
                     type:'COURSE_VIEW'

@@ -20,16 +20,16 @@ const Home = () => {
 
     const dispatch=useDispatch();   
 
+    
 
     useEffect(() => {
-
         if(user?.currentUser?.adminUser===true){
             history.push('/user/dashboard');
         }
         else if(user?.currentUser?.roles?.map(x=>x.name).includes('ROLE_INSTRUCTOR')){
             history.push('/user/instructor');
         }
-        getRequest(API_COURSE_LIST_URL).then((res) => {
+        getRequest('/user/admin/api/courseList').then((res) => {
             setCourses(res.filter(course => course.published));
         }).catch((err) => {
             console.log(err);
@@ -54,14 +54,14 @@ const Home = () => {
             <Dashboard/>
            <CourseList/>
 
-                    <div className="row pt-4">
+                    {/* <div className="row pt-4">
                         {courses.map((course) => (
                             <div key={course.id} className="col-md-4">
                                 <CourseCard key={course.id} course={course} onClickCourse={onClickCourse} />
-                                {/* <pre>{JSON.stringify(course, null, 4)}</pre> */}
                             </div>
                         ))}
-                    </div>
+                    </div> */}
+                    
             </div>
             <Footer/>
 

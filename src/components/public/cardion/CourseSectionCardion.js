@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import CourseLessonCardionView from "./CourseLessonCardionView";
 
-function CourseSectionCardion({ course }) {
+function CourseSectionCardion({ course , isCoursePurchased}) {
   const [showCardion, setShowCardion] = useState(0);
 
   return (
@@ -95,6 +95,8 @@ function CourseSectionCardion({ course }) {
               courseLessonsList={x.courseLessonsList}
               index={index}
               showCardion={showCardion}
+              isCoursePurchased={isCoursePurchased}
+              courseID={course.id}
             />
           </div>
         ))}

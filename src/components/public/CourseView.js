@@ -3,17 +3,22 @@ import CourseSectionCardion from "./cardion/CourseSectionCardion";
 import { useParams } from "react-router-dom/cjs/react-router-dom";
 import AppHeader from "../../common/AppHeader";
 import CourseCardView from "./cardion/CourseCardView";
-import Footer from "./header/Footer";
+import { PUBLIC_GET_COURSE } from "../../constants";
+
 
 const CourseView = () => {
   const params = useParams();
   const [course, setCourse] = useState({});
+
+
+ 
+
   useEffect(() => {
     getCourseData();
   }, []);
   const getCourseData = async () => {
     const courseData = await fetch(
-      "http://localhost:8080/public/api/course/" + params.id
+      PUBLIC_GET_COURSE+ params.id
     );
     const dataJson = await courseData.json();
     setCourse(dataJson.data);
@@ -38,7 +43,7 @@ const CourseView = () => {
             <h5 className="font-semibold text-lg">Syllabus</h5>
             <div className="rounded-3xl shadow-lg  w-[50rem] h-auto ">
               {Object.keys(course).length > 0 && (
-                <CourseSectionCardion course={course} />
+                <CourseSectionCardion key={course.id} course={course} />
               )}
             </div>
           </div>
@@ -56,7 +61,10 @@ const CourseView = () => {
               <span className="font-bold text-base m-3">Raju</span>
             </div>
             <span className="m-1 p-2 w-[51rem] leading-6">
-            I will be your lead trainer in this course. Within no time, I will help you to understand the subject in an easy manner. I have a huge experience in online training and recording videos. Let's get started!
+              I will be your lead trainer in this course. Within no time, I will
+              help you to understand the subject in an easy manner. I have a
+              huge experience in online training and recording videos. Let's get
+              started!
             </span>
           </div>
         </div>

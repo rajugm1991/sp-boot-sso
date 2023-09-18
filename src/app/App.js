@@ -34,6 +34,8 @@ import StudentSideBarMenu from "../components/nonuser/StudentSideBarMenu";
 import UserCourseView from "../pages/nonuser/course/UserCourseViewPage";
 import CourseView from "../components/public/CourseView";
 import InstructorLayout from "../components/nav/InstructorLayout";
+import CourseRenderBody from "../components/course_video_render/CourseRenderBody";
+import CourseRenderMainBody from "../components/course_video_render/CourseRenderMainBody";
 
 
 
@@ -62,7 +64,9 @@ class App extends Component {
      <React.Fragment>
           <Switch>
             <Route exact path="/" component={Home}></Route>   
-            <Route  path="/learn/:id" component={CourseView}></Route>   
+            <Route  path="/learn/:id" component={CourseView}></Route> 
+            <Route  path="/learns/course/:id/lesson/:lessonId" component={CourseRenderMainBody}></Route> 
+            <Route  path="/learnCourse/:id" component={CourseRenderBody}></Route> 
             <PrivateRoute path="/profile" authenticated={this.props.authenticated} currentUser={this.props.currentUser}
               component={Profile}></PrivateRoute>
               <PrivateRoute exact path="/user/courseView" authenticated={this.props.authenticated}  component={SingleCourse}/>

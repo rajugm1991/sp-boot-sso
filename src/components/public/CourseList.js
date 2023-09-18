@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import CourseCard from './CourseCard'
 import { Link } from 'react-router-dom';
+import { PUBLIC_GET_COURSE } from '../../constants';
 
 const CourseList = () => {
 
@@ -8,7 +9,7 @@ const CourseList = () => {
     
 
     const getCourseList=async()=>{
-        const data=await fetch('http://localhost:8080/public/api/course');
+        const data=await fetch(PUBLIC_GET_COURSE);
         const jsonData=await data.json();
         setCourseList(jsonData);
     }
